@@ -1,28 +1,28 @@
 import { z } from "zod";
 
 export const StationReferenceValidator = z.object({
-  stationNumber: z.number(),
-  distance: z.number().optional(),
+  stationNumber: z.coerce.number(),
+  distance: z.coerce.number().optional(),
 });
 export type StationReference = z.infer<typeof StationReferenceValidator>;
 
 export const RaceValidator = z.object({
   name: z.string(),
-  distance: z.number(),
+  distance: z.coerce.number(),
   stations: z.array(StationReferenceValidator),
 });
 export type Race = z.infer<typeof RaceValidator>;
 
 export const StationValidator = z.object({
   name: z.string(),
-  stationNumber: z.number(),
-  distance: z.number().optional(),
+  stationNumber: z.coerce.number(),
+  distance: z.coerce.number().optional(),
   stationNumberDisplayed: z.string().optional(),
 });
 export type Station = z.infer<typeof StationValidator>;
 
 export const ParticipantValidator = z.object({
-  bibNumber: z.number(),
+  bibNumber: z.coerce.number(),
   firstName: z.string(),
   lastName: z.string(),
   age: z.union([
