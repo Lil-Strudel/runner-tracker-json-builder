@@ -1,5 +1,5 @@
 import { createContext, useState, PropsWithChildren } from "react";
-import { RaceEvent } from "./types";
+import { FormValues } from "./types";
 
 type AppState =
   | {
@@ -8,7 +8,7 @@ type AppState =
     }
   | {
       mode: "configure";
-      initialValues: RaceEvent;
+      initialValues: FormValues;
     };
 
 export const AppContext = createContext<{

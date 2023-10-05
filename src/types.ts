@@ -53,8 +53,17 @@ export const RaceEventValidator = z.object({
   name: z.string(),
   slug: z.string(),
   startDate: z.string(),
-  races: z.array(RaceValidator),
   stations: z.array(StationValidator),
+  races: z.array(RaceValidator),
   participants: z.array(ParticipantValidator),
 });
 export type RaceEvent = z.infer<typeof RaceEventValidator>;
+
+export const FormValidator = RaceEventValidator.omit({ startDate: true }).and(
+  z.object({
+    date: z.date(),
+    time: z.string().optional(),
+  }),
+);
+
+export type FormValues = z.infer<typeof FormValidator>;

@@ -1,202 +1,83 @@
 import { useContext } from "react";
 import { AppContext } from "@/AppContext";
-import { RaceEvent, RaceEventValidator } from "@/types";
-import { Button } from "./ui/button";
-import { useFieldArray, useForm } from "react-hook-form";
+import { FormValidator, FormValues, RaceEvent } from "@/types";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Form } from "./ui/form";
-import TextField from "./text-field";
-import RaceStationsField from "./race-station-field";
+import { Button } from "./ui/button";
+import General from "./fileConfigureForm/general";
+import Stations from "./fileConfigureForm/stations";
+import Participants from "./fileConfigureForm/participants";
+import Races from "./fileConfigureForm/races";
+import usePreventRefresh from "@/hooks/usePreventRefresh";
+import { saveObjectAsFile } from "@/lib/utils";
 
 interface FileConfigurePageProps {
-  initialValues: RaceEvent;
+  initialValues: FormValues;
 }
 function FileConfigurePageContent(props: FileConfigurePageProps) {
-  const form = useForm<RaceEvent>({
-    resolver: zodResolver(RaceEventValidator),
+  // usePreventRefresh();
+
+  const form = useForm<FormValues>({
+    resolver: zodResolver(FormValidator),
     defaultValues: props.initialValues,
   });
 
-  const racesField = useFieldArray({
-    name: "races",
-    control: form.control,
-  });
-
-  const stationsField = useFieldArray({
-    name: "stations",
-    control: form.control,
-  });
-
-  const participantsField = useFieldArray({
-    name: "participants",
-    control: form.control,
-  });
-
-  const onSubmit = (values: RaceEvent) => {
-    const fileName = "runner-tracker";
-    const json = JSON.stringify(values, null, 2);
-    const blob = new Blob([json], { type: "application/json" });
-    const href = URL.createObjectURL(blob);
-
-    const link = document.createElement("a");
-    link.href = href;
-    link.download = fileName + ".json";
-    document.body.appendChild(link);
-    link.click();
-
-    document.body.removeChild(link);
-    URL.revokeObjectURL(href);
+  const convertFormToRace = ({
+    date,
+    time,
+    ...values
+  }: FormValues): RaceEvent => {
+    return { ...values, startDate: "" };
   };
 
+  const onSubmit = (values: FormValues) => {
+    const raceEvent = convertFormToRace(values);
+
+    console.log({ values, raceEvent });
+
+    saveObjectAsFile("runner-tracker.json", raceEvent);
+  };
+
+  form.register;
+
   return (
-    <div className="container mx-auto">
+    <section className="py-14 flex flex-col">
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-          <TextField control={form.control} name="name" label="Name" />
-          <TextField control={form.control} name="slug" label="Slug" />
-          <TextField
-            control={form.control}
-            name="startDate"
-            label="Start Date"
-          />
-          <div className="flex gap-4">
-            <h1 className="text-6xl">Stations</h1>
-            <Button
-              type="button"
-              onClick={() =>
-                stationsField.append({
-                  name: "",
-                  stationNumber: stationsField.fields.length,
-                })
-              }
-            >
-              Add Station
-            </Button>
-          </div>
-          {stationsField.fields.map((field, index) => (
-            <div key={field.id}>
-              <div className="flex gap-4">
-                <h1 className="text-2xl">Station {index + 1}</h1>
-                <Button onClick={() => stationsField.remove(index)}>
-                  Delete
+        <form onSubmit={form.handleSubmit(onSubmit)}>
+          <div className="max-w-screen-xl mx-auto px-4 text-center md:px-8">
+            <div className="max-w-xl md:mx-auto">
+              <Tabs defaultValue="general">
+                <TabsList>
+                  <TabsTrigger value="general">General</TabsTrigger>
+                  <TabsTrigger value="stations">Stations</TabsTrigger>
+                  <TabsTrigger value="races">Races</TabsTrigger>
+                  <TabsTrigger value="participants">Participants</TabsTrigger>
+                </TabsList>
+                <Button type="submit" className="ml-4">
+                  Export File
                 </Button>
-              </div>
-              <div className="columns-2">
-                <TextField
-                  label="Name"
-                  {...form.register(`stations.${index}.name`)}
-                />
-                <TextField
-                  label="Distance"
-                  {...form.register(`stations.${index}.distance`)}
-                />
-                <TextField
-                  label="Station Number"
-                  {...form.register(`stations.${index}.stationNumber`)}
-                />
-                <TextField
-                  label="Station Number Displayed"
-                  {...form.register(`stations.${index}.stationNumberDisplayed`)}
-                />
-              </div>
+                <div className="bg-muted rounded-md p-4 my-4">
+                  <TabsContent value="general">
+                    <General control={form.control} />
+                  </TabsContent>
+                  <TabsContent value="stations">
+                    <Stations control={form.control} register={form.register} />
+                  </TabsContent>
+                  <TabsContent value="races">
+                    <Races />
+                  </TabsContent>
+                  <TabsContent value="participants">
+                    <Participants />
+                  </TabsContent>
+                </div>
+              </Tabs>
             </div>
-          ))}
-          <div className="flex gap-4">
-            <h1 className="text-6xl">Races</h1>
-            <Button
-              type="button"
-              onClick={() =>
-                racesField.append({
-                  name: "",
-                  distance: 0,
-                  stations: [],
-                })
-              }
-            >
-              Add Race
-            </Button>
           </div>
-          {racesField.fields.map((field, index) => (
-            <div key={field.id}>
-              <div className="flex gap-4">
-                <h1 className="text-2xl">Race {index + 1}</h1>
-                <Button onClick={() => racesField.remove(index)}>Delete</Button>
-              </div>
-              <div className="columns-2">
-                <TextField
-                  label="Name"
-                  {...form.register(`races.${index}.name`)}
-                />
-                <TextField
-                  label="Distance"
-                  {...form.register(`races.${index}.distance`)}
-                />
-              </div>
-              <RaceStationsField
-                name={`races.${index}.stations`}
-                control={form.control}
-                register={form.register}
-              />
-            </div>
-          ))}
-          <div className="flex gap-4">
-            <h1 className="text-6xl">Participants</h1>
-            <Button
-              type="button"
-              onClick={() =>
-                participantsField.append({
-                  firstName: "",
-                  lastName: "",
-                  age: "",
-                  gender: "M",
-                  bibNumber: 0,
-                  raceName: "",
-                })
-              }
-            >
-              Add Participant
-            </Button>
-          </div>
-          {participantsField.fields.map((field, index) => (
-            <div key={field.id}>
-              <div className="flex gap-4">
-                <h1 className="text-2xl">Participant {index + 1}</h1>
-                <Button onClick={() => participantsField.remove(index)}>
-                  Delete
-                </Button>
-              </div>
-              <div className="columns-2">
-                <TextField
-                  label="First Name"
-                  {...form.register(`participants.${index}.firstName`)}
-                />
-                <TextField
-                  label="Last Name"
-                  {...form.register(`participants.${index}.lastName`)}
-                />
-                <TextField
-                  label="Age"
-                  {...form.register(`participants.${index}.age`)}
-                />
-                <TextField
-                  label="Gender"
-                  {...form.register(`participants.${index}.gender`)}
-                />
-                <TextField
-                  label="Bib #"
-                  {...form.register(`participants.${index}.bibNumber`)}
-                />
-                <TextField
-                  label="Race"
-                  {...form.register(`participants.${index}.raceName`)}
-                />
-              </div>
-            </div>
-          ))}
-          <Button type="submit">Save File</Button>
         </form>
       </Form>
-    </div>
+    </section>
   );
 }
 
