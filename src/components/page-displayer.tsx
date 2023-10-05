@@ -1,5 +1,5 @@
 import { AppContext } from "@/AppContext";
-import React, { useContext } from "react";
+import { useContext } from "react";
 import WelcomePage from "./welcome-page";
 import FileConfigurePage from "./file-configure-page";
 

@@ -10,7 +10,7 @@ import General from "./fileConfigureForm/general";
 import Stations from "./fileConfigureForm/stations";
 import Participants from "./fileConfigureForm/participants";
 import Races from "./fileConfigureForm/races";
-import usePreventRefresh from "@/hooks/usePreventRefresh";
+// import usePreventRefresh from "@/hooks/usePreventRefresh";
 import { saveObjectAsFile } from "@/lib/utils";
 
 interface FileConfigurePageProps {
@@ -29,6 +29,8 @@ function FileConfigurePageContent(props: FileConfigurePageProps) {
     time,
     ...values
   }: FormValues): RaceEvent => {
+    date;
+    time;
     return { ...values, startDate: "" };
   };
 

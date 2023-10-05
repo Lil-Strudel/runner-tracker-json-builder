@@ -23,7 +23,7 @@ function General({ control }: GeneralProps) {
         label="Slug"
       />
       <DatePicker control={control} name="date" label="Start Date" />
-      <TimePicker control={control} name="time" label="Start Time" />
+      <TimePicker />
     </div>
   );
 }

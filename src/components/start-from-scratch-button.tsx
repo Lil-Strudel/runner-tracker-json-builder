@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import { Button } from "./ui/button";
 import { AppContext } from "@/AppContext";
 
@@ -11,7 +11,8 @@ function StartFromScratchButton() {
       initialValues: {
         name: "",
         slug: "",
-        startDate: "",
+        date: new Date(),
+        time: "",
         races: [],
         stations: [],
         participants: [],

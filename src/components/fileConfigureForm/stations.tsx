@@ -2,7 +2,7 @@ import { FormValues } from "@/types";
 import { Button } from "@/components/ui/button";
 import { Control, UseFormRegister, useFieldArray } from "react-hook-form";
 import { Plus } from "lucide-react";
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import { useSprings, animated, config } from "@react-spring/web";
 import { useDrag } from "@use-gesture/react";
 import { clamp, move } from "@/lib/utils";
@@ -36,7 +36,7 @@ interface StationsProps {
   control: Control<FormValues>;
   register: UseFormRegister<FormValues>;
 }
-function Stations({ control, register }: StationsProps) {
+function Stations({ control }: StationsProps) {
   const stationsField = useFieldArray({
     control,
     name: "stations",
