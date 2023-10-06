@@ -39,7 +39,7 @@ function FileConfigurePageContent(props: FileConfigurePageProps) {
 
     console.log({ values, raceEvent });
 
-    saveObjectAsFile("runner-tracker.json", raceEvent);
+    // saveObjectAsFile("runner-tracker.json", raceEvent);
   };
 
   form.register;

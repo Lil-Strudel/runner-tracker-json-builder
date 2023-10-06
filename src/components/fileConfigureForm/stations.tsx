@@ -1,11 +1,20 @@
 import { FormValues } from "@/types";
 import { Button } from "@/components/ui/button";
-import { Control, UseFormRegister, useFieldArray } from "react-hook-form";
-import { Plus } from "lucide-react";
+import {
+  Control,
+  UseFormGetValues,
+  UseFormRegister,
+  useFieldArray,
+} from "react-hook-form";
+import { AlignJustify, Plus } from "lucide-react";
 import { useRef } from "react";
 import { useSprings, animated, config } from "@react-spring/web";
 import { useDrag } from "@use-gesture/react";
 import { clamp, move } from "@/lib/utils";
+import TextField from "../fields/text-field";
+import { Checkbox } from "../ui/checkbox";
+import { FormControl, FormField, FormItem, FormLabel } from "../ui/form";
+import { produce } from "immer";
 
 const CARD_HEIGHT = 80;
 const CARD_GAP = 16; // same as gap-4
@@ -56,8 +65,12 @@ function Stations({ control }: StationsProps) {
       fields.length - 1,
     );
     const newOrder = move(order.current, curIndex, curRow);
+
     api.start(springFn(newOrder, active, originalIndex, curIndex, y));
-    if (!active) order.current = newOrder;
+
+    if (!active) {
+      order.current = newOrder;
+    }
   });
 
   return (
@@ -69,7 +82,6 @@ function Stations({ control }: StationsProps) {
         <div className="absolute top-0 left-0 w-full">
           {springs.map(({ zIndex, shadow, y, scale }, i) => (
             <animated.div
-              {...bind(i)}
               key={i}
               style={{
                 zIndex,
@@ -80,10 +92,40 @@ function Stations({ control }: StationsProps) {
                 scale,
                 height: CARD_HEIGHT,
               }}
-              className="absolute touch-none bg-white rounded-md border w-full"
+              className="absolute bg-white rounded-md border w-full p-4"
               children={
-                <div>
-                  <h1 className="text-2xl">{fields[i].name}</h1>
+                <div className="flex items-center h-full w-full gap-4">
+                  <AlignJustify
+                    className="cursor-pointer touch-none"
+                    {...bind(i)}
+                  />
+                  <TextField
+                    control={control}
+                    name={`stations.${i}.name`}
+                    placeholder="Name"
+                  />
+                  <TextField
+                    control={control}
+                    name={`stations.${i}.distance`}
+                    placeholder="Distance"
+                  />
+                  <FormField
+                    control={control}
+                    name={`stations.${i}.stationNumberDisplayed`}
+                    render={({ field }) => (
+                      <FormItem className="flex flex-row items-center space-y-0">
+                        <FormControl>
+                          <Checkbox
+                            checked={field.value === " "}
+                            onCheckedChange={(checked) =>
+                              field.onChange(checked ? " " : "")
+                            }
+                          />
+                        </FormControl>
+                        <FormLabel className="ml-2">Hide Number</FormLabel>
+                      </FormItem>
+                    )}
+                  />
                 </div>
               }
             />
@@ -94,7 +136,7 @@ function Stations({ control }: StationsProps) {
         <Button
           onClick={() => {
             stationsField.append({
-              name: "test" + stationsField.fields.length,
+              name: "",
               stationNumber: stationsField.fields.length,
             });
             order.current = [...order.current, order.current.length];
