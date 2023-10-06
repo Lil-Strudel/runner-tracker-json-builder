@@ -1,11 +1,6 @@
 import { FormValues } from "@/types";
 import { Button } from "@/components/ui/button";
-import {
-  Control,
-  UseFormGetValues,
-  UseFormRegister,
-  useFieldArray,
-} from "react-hook-form";
+import { Control, useFieldArray } from "react-hook-form";
 import { AlignJustify, Plus } from "lucide-react";
 import { useRef } from "react";
 import { useSprings, animated, config } from "@react-spring/web";
@@ -14,7 +9,6 @@ import { clamp, move } from "@/lib/utils";
 import TextField from "../fields/text-field";
 import { Checkbox } from "../ui/checkbox";
 import { FormControl, FormField, FormItem, FormLabel } from "../ui/form";
-import { produce } from "immer";
 
 const CARD_HEIGHT = 80;
 const CARD_GAP = 16; // same as gap-4
@@ -43,7 +37,6 @@ const springFn =
 
 interface StationsProps {
   control: Control<FormValues>;
-  register: UseFormRegister<FormValues>;
 }
 function Stations({ control }: StationsProps) {
   const stationsField = useFieldArray({

@@ -11,7 +11,7 @@ import Stations from "./fileConfigureForm/stations";
 import Participants from "./fileConfigureForm/participants";
 import Races from "./fileConfigureForm/races";
 // import usePreventRefresh from "@/hooks/usePreventRefresh";
-import { saveObjectAsFile } from "@/lib/utils";
+// import { saveObjectAsFile } from "@/lib/utils";
 
 interface FileConfigurePageProps {
   initialValues: FormValues;
@@ -65,10 +65,10 @@ function FileConfigurePageContent(props: FileConfigurePageProps) {
                     <General control={form.control} />
                   </TabsContent>
                   <TabsContent value="stations">
-                    <Stations control={form.control} register={form.register} />
+                    <Stations control={form.control} />
                   </TabsContent>
                   <TabsContent value="races">
-                    <Races />
+                    <Races control={form.control} />
                   </TabsContent>
                   <TabsContent value="participants">
                     <Participants />
