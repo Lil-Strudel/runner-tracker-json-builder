@@ -4,6 +4,7 @@ import { Control, useFieldArray } from "react-hook-form";
 import { Plus } from "lucide-react";
 import TextField from "../fields/text-field";
 import RaceStationField from "../fields/race-station-field";
+import { cn } from "@/lib/utils";
 
 interface RacesProps {
   control: Control<FormValues>;
@@ -22,7 +23,10 @@ function Races({ control }: RacesProps) {
         {fields.map((field, index) => (
           <div
             key={field.id}
-            className="flex flex-col items-start gap-4 bg-white border p-4 rounded-md"
+            className={cn(
+              "flex flex-col items-start gap-4 bg-white border p-4 rounded-md",
+              index === fields.length - 1 && "mb-4",
+            )}
           >
             <h1 className="text-2xl">Race {index + 1}</h1>
             <div className="grid grid-cols-2 gap-4 w-full">
@@ -41,7 +45,7 @@ function Races({ control }: RacesProps) {
           </div>
         ))}
       </div>
-      <div className="flex gap-2 items-center mx-auto w-fit mt-4">
+      <div className="flex gap-2 items-center mx-auto w-fit ">
         <Button
           onClick={() => {
             racesField.append({

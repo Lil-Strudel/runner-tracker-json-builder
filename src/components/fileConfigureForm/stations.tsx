@@ -1,7 +1,7 @@
 import { FormValues } from "@/types";
 import { Button } from "@/components/ui/button";
 import { Control, useFieldArray } from "react-hook-form";
-import { AlignJustify, Plus } from "lucide-react";
+import { Plus } from "lucide-react";
 import { useRef } from "react";
 import { useSprings, animated, config } from "@react-spring/web";
 import { useDrag } from "@use-gesture/react";
@@ -50,7 +50,7 @@ function Stations({ control }: StationsProps) {
 
   const [springs, api] = useSprings(fields.length, springFn(order.current));
 
-  const bind = useDrag(({ args: [originalIndex], active, movement: [, y] }) => {
+  useDrag(({ args: [originalIndex], active, movement: [, y] }) => {
     const curIndex = order.current.indexOf(originalIndex);
     const curRow = clamp(
       Math.round((curIndex * CARD_TOTAL + y) / CARD_TOTAL),
@@ -88,10 +88,12 @@ function Stations({ control }: StationsProps) {
               className="absolute bg-white rounded-md border w-full p-4"
               children={
                 <div className="flex items-center h-full w-full gap-4">
-                  <AlignJustify
+                  {/*
+                    <AlignJustify
                     className="cursor-pointer touch-none"
                     {...bind(i)}
-                  />
+                    />
+                 */}
                   <TextField
                     control={control}
                     name={`stations.${i}.name`}

@@ -58,6 +58,11 @@ function Participants({ control }: ParticipantsProps) {
     gender: false,
   });
 
+  const participants = useController({
+    control,
+    name: "participants",
+  });
+
   const columns: ColumnDef<Participant>[] = useMemo(
     () => [
       {
@@ -220,13 +225,8 @@ function Participants({ control }: ParticipantsProps) {
         },
       },
     ],
-    [],
+    [participants.field],
   );
-
-  const participants = useController({
-    control,
-    name: "participants",
-  });
 
   const table = useReactTable({
     data: participants.field.value,
