@@ -71,7 +71,7 @@ function FileConfigurePageContent(props: FileConfigurePageProps) {
                     <Races control={form.control} />
                   </TabsContent>
                   <TabsContent value="participants">
-                    <Participants />
+                    <Participants control={form.control} />
                   </TabsContent>
                 </div>
               </Tabs>
