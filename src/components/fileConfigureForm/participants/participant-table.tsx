@@ -33,7 +33,7 @@ import {
 } from "@/components/ui/table";
 import { useMemo, useState } from "react";
 import { FormValues, Participant } from "@/types";
-import { Control, UseControllerReturn, useController } from "react-hook-form";
+import { UseControllerReturn } from "react-hook-form";
 
 import {
   AlertDialog,
@@ -244,7 +244,7 @@ function ParticipantTable({ participantsField }: ParticipantsProps) {
 
   return (
     <div className="w-full">
-      <div className="flex items-center py-4">
+      <div className="flex items-center pb-4">
         <Input
           placeholder="Filter by first name..."
           value={
@@ -332,7 +332,7 @@ function ParticipantTable({ participantsField }: ParticipantsProps) {
           </TableBody>
         </Table>
       </div>
-      <div className="flex items-center justify-end space-x-2 py-4">
+      <div className="flex items-center justify-end space-x-2 pt-4">
         <div className="space-x-2">
           <Button
             variant="outline"

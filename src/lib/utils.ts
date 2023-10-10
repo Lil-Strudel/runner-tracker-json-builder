@@ -5,14 +5,20 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export function saveObjectAsFile(fileName: string, obj: object) {
-  const json = JSON.stringify(obj, null, 2);
-  const blob = new Blob([json], { type: "application/json" });
+export function saveObjectAsFile(
+  fileName: string,
+  fileType: "json" | "csv",
+  obj: unknown,
+) {
+  const json = typeof obj === "string" ? obj : JSON.stringify(obj, null, 2);
+  const blob = new Blob([json], {
+    type: fileType === "json" ? "application/json" : "text/csv",
+  });
   const href = URL.createObjectURL(blob);
 
   const link = document.createElement("a");
   link.href = href;
-  link.download = fileName + ".json";
+  link.download = fileName + (fileType === "json" ? ".json" : ".csv");
   document.body.appendChild(link);
   link.click();
 
