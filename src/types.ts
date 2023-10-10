@@ -67,3 +67,13 @@ export const FormValidator = RaceEventValidator.omit({ startDate: true }).and(
 );
 
 export type FormValues = z.infer<typeof FormValidator>;
+
+export const CSVParticipantValidator = z.object({
+  Bib: z.coerce.number(),
+  "First Name": z.string(),
+  "Last Name": z.string(),
+  Age: z.coerce.number(),
+  Gender: z.union([z.literal("M"), z.literal("F"), z.literal("")]),
+  "Race Name": z.string(),
+});
+export type CSVParticipant = z.infer<typeof CSVParticipantValidator>;
