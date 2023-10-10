@@ -42,8 +42,6 @@ function FileConfigurePageContent(props: FileConfigurePageProps) {
     // saveObjectAsFile("runner-tracker", "json", raceEvent);
   };
 
-  form.register;
-
   return (
     <section className="py-14 flex flex-col">
       <Form {...form}>

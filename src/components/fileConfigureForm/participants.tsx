@@ -77,7 +77,10 @@ function Participants({ control }: ParticipantsProps) {
       <Button className="w-fit" onClick={handleCSVDownload}>
         Download CSV
       </Button>
-      <ParticipantTable participantsField={participantsField} />
+      <ParticipantTable
+        control={control}
+        participantsField={participantsField}
+      />
     </div>
   );
 }

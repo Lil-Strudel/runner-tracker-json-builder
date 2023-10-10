@@ -10,16 +10,13 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react";
+import { ArrowUpDown, ChevronDown } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
@@ -33,24 +30,15 @@ import {
 } from "@/components/ui/table";
 import { useMemo, useState } from "react";
 import { FormValues, Participant } from "@/types";
-import { UseControllerReturn } from "react-hook-form";
 
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
+import { Control, UseControllerReturn } from "react-hook-form";
+import ParticipantTableActionsCell from "./participant-table-actions-cell";
 
 interface ParticipantsProps {
+  control: Control<FormValues>;
   participantsField: UseControllerReturn<FormValues, "participants">;
 }
-function ParticipantTable({ participantsField }: ParticipantsProps) {
+function ParticipantTable({ control, participantsField }: ParticipantsProps) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({
@@ -167,62 +155,16 @@ function ParticipantTable({ participantsField }: ParticipantsProps) {
       {
         id: "actions",
         enableHiding: false,
-        cell: ({ row }) => {
-          return (
-            <AlertDialog>
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" className="h-8 w-8 p-0">
-                    <span className="sr-only">Open menu</span>
-                    <MoreHorizontal className="h-4 w-4" />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
-                  <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem>Edit Participant</DropdownMenuItem>
-                  <AlertDialogTrigger asChild>
-                    <DropdownMenuItem>Delete Participant</DropdownMenuItem>
-                  </AlertDialogTrigger>
-                </DropdownMenuContent>
-                <AlertDialogContent>
-                  <AlertDialogHeader>
-                    <AlertDialogTitle>
-                      Are you absolutely sure?
-                    </AlertDialogTitle>
-                    <AlertDialogDescription>
-                      This action cannot be undone. Participant{" "}
-                      <b>
-                        #{row.getValue("bibNumber")} {row.getValue("firstName")}{" "}
-                        {row.getValue("lastName")}{" "}
-                      </b>{" "}
-                      will be <b>deleted</b>.
-                    </AlertDialogDescription>
-                  </AlertDialogHeader>
-                  <AlertDialogFooter>
-                    <AlertDialogCancel>Cancel</AlertDialogCancel>
-                    <AlertDialogAction
-                      onClick={() => {
-                        const newParticipants = [
-                          ...participantsField.field.value,
-                        ];
-
-                        newParticipants.splice(row.index, 1);
-
-                        participantsField.field.onChange(newParticipants);
-                      }}
-                    >
-                      Continue
-                    </AlertDialogAction>
-                  </AlertDialogFooter>
-                </AlertDialogContent>
-              </DropdownMenu>
-            </AlertDialog>
-          );
-        },
+        cell: ({ row }) => (
+          <ParticipantTableActionsCell
+            control={control}
+            row={row}
+            participantsField={participantsField}
+          />
+        ),
       },
     ],
-    [participantsField.field],
+    [participantsField, participantsField.field.value, control],
   );
 
   const table = useReactTable({
