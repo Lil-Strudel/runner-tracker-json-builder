@@ -33,11 +33,11 @@ function DatePicker<
   ...props
 }: DatePickerProps & Omit<ControllerProps<TFieldValues, TName>, "render">) {
   return (
-    <div className="text-left">
+    <div>
       <FormField
         {...props}
         render={({ field }) => (
-          <FormItem className="flex flex-col">
+          <FormItem>
             {label && <FormLabel>{label}</FormLabel>}
             <Popover>
               <PopoverTrigger asChild>
@@ -45,7 +45,7 @@ function DatePicker<
                   <Button
                     variant={"outline"}
                     className={cn(
-                      "w-[240px] pl-3 text-left font-normal",
+                      "w-[240px] pl-3 font-normal",
                       !field.value && "text-muted-foreground",
                     )}
                   >

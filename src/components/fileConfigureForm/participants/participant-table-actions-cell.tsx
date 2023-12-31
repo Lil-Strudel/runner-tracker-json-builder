@@ -22,6 +22,7 @@ interface ParticipantTableActionsCellProps {
 }
 
 function ParticipantTableActionsCell({
+  control,
   row,
   participantsField,
 }: ParticipantTableActionsCellProps) {
@@ -49,6 +50,7 @@ function ParticipantTableActionsCell({
         </DropdownMenuContent>
       </DropdownMenu>
       <ParticipantEditDialog
+        control={control}
         participant={row.original}
         onEdit={(values) => {
           const newParticipants = [...participantsField.field.value];

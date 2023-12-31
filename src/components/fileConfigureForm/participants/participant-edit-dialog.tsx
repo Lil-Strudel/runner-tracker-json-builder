@@ -1,3 +1,4 @@
+import SelectField from "@/components/fields/select-field";
 import TextField from "@/components/fields/text-field";
 import { Button } from "@/components/ui/button";
 import {
@@ -7,17 +8,25 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Form } from "@/components/ui/form";
-import { Participant, ParticipantValidator } from "@/types";
+import {
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { FormValues, Participant, ParticipantValidator } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { DialogProps } from "@radix-ui/react-alert-dialog";
-import { useForm } from "react-hook-form";
+import { Control, useForm, useWatch } from "react-hook-form";
 
 interface ParticipantEditDialogProps {
+  control: Control<FormValues>;
   participant: Participant;
   onEdit: (participant: Participant) => void;
   dialogProps?: DialogProps;
 }
 function ParticipantEditDialog({
+  control,
   participant,
   onEdit,
   dialogProps,
@@ -26,6 +35,13 @@ function ParticipantEditDialog({
     resolver: zodResolver(ParticipantValidator),
     defaultValues: participant,
   });
+
+  const races = useWatch({
+    control: control,
+    name: "races",
+  });
+
+  const raceNames = races.map((race) => race.name);
 
   const onSubmit = (values: Participant) => {
     setTimeout(() => {
@@ -42,7 +58,7 @@ function ParticipantEditDialog({
         <DialogHeader>
           <DialogTitle>
             Edit #{participant.bibNumber} {participant.firstName}{" "}
-            {participant.lastName}{" "}
+            {participant.lastName}
           </DialogTitle>
         </DialogHeader>
         <Form {...form}>
@@ -62,13 +78,60 @@ function ParticipantEditDialog({
               name="bibNumber"
               label="Bib Number"
             />
-            <TextField control={form.control} name="age" label="Age" />
-            <TextField control={form.control} name="gender" label="Gender" />
-            <TextField
+            <SelectField
               control={form.control}
               name="raceName"
               label="Race Name"
-            />
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Race Name" />
+              </SelectTrigger>
+              <SelectContent>
+                {raceNames.map((raceName, index) => (
+                  <SelectItem key={index} value={raceName}>
+                    {raceName}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </SelectField>
+            <SelectField control={form.control} name="gender" label="Gender">
+              <SelectTrigger>
+                <SelectValue placeholder="Gender" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="M">Male</SelectItem>
+                <SelectItem value="F">Female</SelectItem>
+              </SelectContent>
+            </SelectField>
+            <SelectField control={form.control} name="age" label="Age Group">
+              <SelectTrigger>
+                <SelectValue placeholder="Age Group" />
+              </SelectTrigger>
+              <SelectContent>
+                {[
+                  "M<20",
+                  "M20-29",
+                  "M30-39",
+                  "M40-49",
+                  "M50-59",
+                  "M60-69",
+                  "M70-79",
+                  "M80-89",
+                  "F<20",
+                  "F20-29",
+                  "F30-39",
+                  "F40-49",
+                  "F50-59",
+                  "F60-69",
+                  "F70-79",
+                  "F80-89",
+                ].map((ageGroup, index) => (
+                  <SelectItem key={index} value={ageGroup}>
+                    {ageGroup}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </SelectField>
           </div>
           <Button onClick={form.handleSubmit(onSubmit)}>Save</Button>
         </Form>

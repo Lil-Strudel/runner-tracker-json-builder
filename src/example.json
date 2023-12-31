@@ -109,17 +109,17 @@
   ],
   "participants": [
     {
-      "bibNumber": 1,
-      "firstName": "Devin",
-      "lastName": "Lang",
+      "bibNumber": 4,
+      "firstName": "Adam",
+      "lastName": "Loomis",
       "age": "M30-39",
       "gender": "M",
       "raceName": "50M"
     },
     {
-      "bibNumber": 4,
-      "firstName": "Adam",
-      "lastName": "Loomis",
+      "bibNumber": 1,
+      "firstName": "Devin",
+      "lastName": "Lang",
       "age": "M30-39",
       "gender": "M",
       "raceName": "50M"

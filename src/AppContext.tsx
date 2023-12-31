@@ -8,7 +8,7 @@ type AppState =
     }
   | {
       mode: "configure";
-      initialValues: FormValues;
+      initialValues: Partial<FormValues>;
     };
 
 export const AppContext = createContext<{

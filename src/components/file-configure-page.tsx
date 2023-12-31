@@ -10,14 +10,15 @@ import General from "./fileConfigureForm/general";
 import Stations from "./fileConfigureForm/stations";
 import Participants from "./fileConfigureForm/participants";
 import Races from "./fileConfigureForm/races";
-// import usePreventRefresh from "@/hooks/usePreventRefresh";
-// import { saveObjectAsFile } from "@/lib/utils";
+import { set } from "date-fns";
+import { saveObjectAsFile } from "@/lib/utils";
+import usePreventRefresh from "@/hooks/usePreventRefresh";
 
 interface FileConfigurePageProps {
   initialValues: FormValues;
 }
 function FileConfigurePageContent(props: FileConfigurePageProps) {
-  // usePreventRefresh();
+  usePreventRefresh();
 
   const form = useForm<FormValues>({
     resolver: zodResolver(FormValidator),
@@ -27,11 +28,36 @@ function FileConfigurePageContent(props: FileConfigurePageProps) {
   const convertFormToRace = ({
     date,
     time,
+    races,
+    stations,
+    participants,
     ...values
   }: FormValues): RaceEvent => {
-    date;
-    time;
-    return { ...values, startDate: "" };
+    const [hours, min] = time.split(":");
+    const fullDate = set(date, {
+      hours: Number(hours),
+      minutes: Number(min),
+    });
+
+    const sortedRaces = races.map((race) => ({
+      ...race,
+      stations: race.stations.sort((a, b) => a.stationNumber - b.stationNumber),
+    }));
+
+    const sortedStations = stations.sort(
+      (a, b) => a.stationNumber - b.stationNumber,
+    );
+    const sortedParticipants = participants.sort(
+      (a, b) => a.bibNumber - b.bibNumber,
+    );
+
+    return {
+      ...values,
+      startDate: fullDate.toString(),
+      races: sortedRaces,
+      stations: sortedStations,
+      participants: sortedParticipants,
+    };
   };
 
   const onSubmit = (values: FormValues) => {
@@ -46,18 +72,20 @@ function FileConfigurePageContent(props: FileConfigurePageProps) {
     <section className="py-14 flex flex-col">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
-          <div className="max-w-screen-xl mx-auto px-4 text-center md:px-8">
+          <div className="max-w-screen-xl mx-auto px-4 md:px-8">
             <div className="max-w-xl md:mx-auto">
               <Tabs defaultValue="general">
-                <TabsList>
-                  <TabsTrigger value="general">General</TabsTrigger>
-                  <TabsTrigger value="stations">Stations</TabsTrigger>
-                  <TabsTrigger value="races">Races</TabsTrigger>
-                  <TabsTrigger value="participants">Participants</TabsTrigger>
-                </TabsList>
-                <Button type="submit" className="ml-4">
-                  Export File
-                </Button>
+                <div className="flex justify-center">
+                  <TabsList>
+                    <TabsTrigger value="general">General</TabsTrigger>
+                    <TabsTrigger value="stations">Stations</TabsTrigger>
+                    <TabsTrigger value="races">Races</TabsTrigger>
+                    <TabsTrigger value="participants">Participants</TabsTrigger>
+                  </TabsList>
+                  <Button type="submit" className="ml-4">
+                    Export File
+                  </Button>
+                </div>
                 <div className="bg-muted rounded-md p-4 my-4">
                   <TabsContent value="general">
                     <General control={form.control} />

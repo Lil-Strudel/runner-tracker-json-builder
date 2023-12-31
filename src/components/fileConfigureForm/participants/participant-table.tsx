@@ -111,7 +111,7 @@ function ParticipantTable({ control, participantsField }: ParticipantsProps) {
                 column.toggleSorting(column.getIsSorted() === "asc")
               }
             >
-              Age
+              Age Group
               <ArrowUpDown className="ml-2 h-4 w-4" />
             </Button>
           );
@@ -244,7 +244,7 @@ function ParticipantTable({ control, participantsField }: ParticipantsProps) {
               </TableRow>
             ))}
           </TableHeader>
-          <TableBody>
+          <TableBody className="text-center">
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow

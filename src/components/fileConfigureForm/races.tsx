@@ -1,7 +1,7 @@
 import { FormValues } from "@/types";
 import { Button } from "@/components/ui/button";
 import { Control, useFieldArray } from "react-hook-form";
-import { Plus } from "lucide-react";
+import { Plus, Trash2 } from "lucide-react";
 import TextField from "../fields/text-field";
 import RaceStationField from "../fields/race-station-field";
 import { cn } from "@/lib/utils";
@@ -17,6 +17,10 @@ function Races({ control }: RacesProps) {
 
   const fields = racesField.fields;
 
+  const handleDeleteRace = (index: number) => {
+    racesField.remove(index);
+  };
+
   return (
     <div>
       <div className="flex flex-col gap-4">
@@ -28,7 +32,16 @@ function Races({ control }: RacesProps) {
               index === fields.length - 1 && "mb-4",
             )}
           >
-            <h1 className="text-2xl">Race {index + 1}</h1>
+            <div className="w-full flex justify-between">
+              <h1 className="text-2xl">Race {index + 1}</h1>
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={() => handleDeleteRace(index)}
+              >
+                <Trash2 className="h-4 w-4 opacity-50" />
+              </Button>
+            </div>
             <div className="grid grid-cols-2 gap-4 w-full">
               <TextField
                 name={`races.${index}.name`}
@@ -37,8 +50,8 @@ function Races({ control }: RacesProps) {
               />
               <TextField
                 name={`races.${index}.distance`}
-                label="Distance"
-                placeholder="Distance"
+                label="Distance (miles)"
+                placeholder="Distance (miles)"
               />
             </div>
             <RaceStationField raceIndex={index} control={control} />

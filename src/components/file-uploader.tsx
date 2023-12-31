@@ -5,6 +5,7 @@ import {
   RaceEvent,
   RaceEventValidator,
 } from "@/types";
+import { parse } from "date-fns";
 import React, { useContext } from "react";
 import { z } from "zod";
 
@@ -20,9 +21,11 @@ function FileUploader() {
       startDate,
       ...values
     }: RaceEvent): FormValues => {
-      const date = new Date(startDate);
+      const [, month, day, year, time] = startDate.split(" ");
 
-      const formValues = { ...values, date, time: "" };
+      const date = parse(`${month}-${day}-${year}`, "LLL-dd-yyyy", new Date());
+
+      const formValues = { ...values, date, time: time };
 
       return FormValidator.parse(formValues);
     };
@@ -33,9 +36,11 @@ function FileUploader() {
 
         const raceEvent = RaceEventValidator.parse(parsedContent);
 
+        const initialValues = transformRaceEventToForm(raceEvent);
+
         setAppState({
           mode: "configure",
-          initialValues: transformRaceEventToForm(raceEvent),
+          initialValues: initialValues,
         });
       } catch (err) {
         if (err instanceof z.ZodError) {
@@ -52,7 +57,7 @@ function FileUploader() {
   };
 
   return (
-    <div className="flex items-center justify-center w-fit">
+    <div className="flex items-center justify-center w-full">
       <label
         htmlFor="dropzone-file"
         className="p-4 flex flex-col items-center justify-center w-full border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
@@ -74,8 +79,7 @@ function FileUploader() {
             />
           </svg>
           <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
-            <span className="font-semibold">Click to upload</span> or drag and
-            drop JSON
+            <span className="font-semibold">Click to upload</span>
           </p>
         </div>
         <input

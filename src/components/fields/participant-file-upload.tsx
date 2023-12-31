@@ -7,6 +7,34 @@ interface ParticipantFileUploadProps {
   onUpload: (participants: Participant[]) => void;
 }
 function ParticipantFileUpload({ onUpload }: ParticipantFileUploadProps) {
+  const getAgeGroup = (age: number, gender: "" | "M" | "F") => {
+    if (!gender) return "";
+    if (age === 0) return "";
+
+    let ageGroup = "";
+    if (age < 20) {
+      ageGroup = "<20";
+    } else if (age < 30) {
+      ageGroup = "20-29";
+    } else if (age < 40) {
+      ageGroup = "30-39";
+    } else if (age < 50) {
+      ageGroup = "40-49";
+    } else if (age < 60) {
+      ageGroup = "50-59";
+    } else if (age < 70) {
+      ageGroup = "60-69";
+    } else if (age < 80) {
+      ageGroup = "70-79";
+    } else if (age < 90) {
+      ageGroup = "80-89";
+    }
+
+    if (!ageGroup) return "";
+
+    return `${gender}${ageGroup}` as Participant["age"];
+  };
+
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (!event.target.files) return;
 
@@ -27,7 +55,7 @@ function ParticipantFileUpload({ onUpload }: ParticipantFileUploadProps) {
           bibNumber: result.Bib,
           firstName: result["First Name"],
           lastName: result["Last Name"],
-          age: "",
+          age: getAgeGroup(result.Age, result.Gender),
           gender: result.Gender,
           raceName: result["Race Name"],
         }));
@@ -70,8 +98,7 @@ function ParticipantFileUpload({ onUpload }: ParticipantFileUploadProps) {
             />
           </svg>
           <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
-            <span className="font-semibold">Click to upload</span> or drag and
-            drop CSV
+            <span className="font-semibold">Click to upload</span>
           </p>
         </div>
         <input

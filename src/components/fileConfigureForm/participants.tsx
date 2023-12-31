@@ -4,8 +4,11 @@ import { Control, useController } from "react-hook-form";
 import ParticipantFileUpload from "../fields/participant-file-upload";
 import { produce } from "immer";
 import { Button } from "../ui/button";
+import { Switch } from "../ui/switch";
 import Papa from "papaparse";
 import { saveObjectAsFile } from "@/lib/utils";
+import { Label } from "@radix-ui/react-label";
+import { useState } from "react";
 
 interface ParticipantsProps {
   control: Control<FormValues>;
@@ -16,31 +19,41 @@ function Participants({ control }: ParticipantsProps) {
     name: "participants",
   });
 
+  const [uploadBehavior, setUploadBehavior] = useState<"update" | "override">(
+    "update",
+  );
+
   const handleParticipantUpload = (participants: Participant[]) => {
-    const currentParticipants = participantsField.field.value;
-    const newParticipants = produce(
-      currentParticipants,
-      (currentParticipants) => {
-        participants.forEach((participant) => {
-          const alreadyExistingParticipant = currentParticipants.findIndex(
-            (currentParticipant) =>
-              currentParticipant.bibNumber === participant.bibNumber,
-          );
+    if (uploadBehavior === "update") {
+      const currentParticipants = participantsField.field.value;
+      const newParticipants = produce(
+        currentParticipants,
+        (currentParticipants) => {
+          participants.forEach((participant) => {
+            const alreadyExistingParticipant = currentParticipants.findIndex(
+              (currentParticipant) =>
+                currentParticipant.bibNumber === participant.bibNumber,
+            );
 
-          // if it doesnt find it
-          if (alreadyExistingParticipant === -1) {
-            currentParticipants.push(participant);
-          }
+            // if it doesnt find it
+            if (alreadyExistingParticipant === -1) {
+              currentParticipants.push(participant);
+            }
 
-          // if it does find it
-          if (alreadyExistingParticipant !== -1) {
-            currentParticipants[alreadyExistingParticipant] = participant;
-          }
-        });
-      },
-    );
+            // if it does find it
+            if (alreadyExistingParticipant !== -1) {
+              currentParticipants[alreadyExistingParticipant] = participant;
+            }
+          });
+        },
+      );
 
-    participantsField.field.onChange(newParticipants);
+      participantsField.field.onChange(newParticipants);
+    }
+
+    if (uploadBehavior === "override") {
+      participantsField.field.onChange(participants);
+    }
   };
 
   const handleCSVDownload = () => {
@@ -50,7 +63,7 @@ function Participants({ control }: ParticipantsProps) {
         "First Name": participant.firstName,
         "Last Name": participant.lastName,
         Gender: participant.gender,
-        Age: 1,
+        Age: Number(participant.age.split("-")[0].replace(/\D/g, "")),
         "Race Name": participant.raceName,
       }),
     );
@@ -66,17 +79,38 @@ function Participants({ control }: ParticipantsProps) {
       });
     }
 
-    const csvString = Papa.unparse(participantsField.field.value);
+    const csvString = Papa.unparse(values);
 
     saveObjectAsFile("participants", "csv", csvString);
+  };
+
+  const handleBehaviorChange = () => {
+    if (uploadBehavior === "override") {
+      setUploadBehavior("update");
+    }
+    if (uploadBehavior === "update") {
+      setUploadBehavior("override");
+    }
   };
 
   return (
     <div className="flex flex-col gap-4 items-center">
       <ParticipantFileUpload onUpload={handleParticipantUpload} />
-      <Button className="w-fit" onClick={handleCSVDownload}>
-        Download CSV
-      </Button>
+      <div className="w-full flex justify-between">
+        <div className="w-full flex items-center space-x-2">
+          <Switch
+            id="csv-mode"
+            checked={uploadBehavior === "override"}
+            onCheckedChange={handleBehaviorChange}
+          />
+          <Label htmlFor="csv-mode">Overide all participants on upload</Label>
+        </div>
+        <Button onClick={handleCSVDownload}>
+          {participantsField.field.value.length === 0
+            ? "Download Template CSV"
+            : "Download Current CSV"}
+        </Button>
+      </div>
       <ParticipantTable
         control={control}
         participantsField={participantsField}

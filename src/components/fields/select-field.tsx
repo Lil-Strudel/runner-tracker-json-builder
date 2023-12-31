@@ -6,28 +6,27 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+import { Select } from "@radix-ui/react-select";
 import { ControllerProps, FieldPath, FieldValues } from "react-hook-form";
 
-interface TextFieldProps {
+interface SelectFieldProps {
   label?: string;
   helperText?: string;
-  placeholder?: string;
   className?: string;
-  inputProps?: React.ComponentProps<typeof Input>;
 }
 
-function TextField<
+function SelectField<
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
 >({
   label,
   helperText,
-  placeholder,
   className,
-  inputProps,
+  children,
   ...props
-}: TextFieldProps & Omit<ControllerProps<TFieldValues, TName>, "render">) {
+}: React.PropsWithChildren<
+  SelectFieldProps & Omit<ControllerProps<TFieldValues, TName>, "render">
+>) {
   return (
     <div className={className}>
       <FormField
@@ -36,11 +35,9 @@ function TextField<
           <FormItem>
             {label && <FormLabel>{label}</FormLabel>}
             <FormControl>
-              <Input
-                {...(inputProps ? inputProps : {})}
-                {...(placeholder ? { placeholder: placeholder } : {})}
-                {...field}
-              />
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                {children}
+              </Select>
             </FormControl>
             {helperText && <FormDescription>{helperText}</FormDescription>}
             <FormMessage />
@@ -51,4 +48,4 @@ function TextField<
   );
 }
 
-export default TextField;
+export default SelectField;

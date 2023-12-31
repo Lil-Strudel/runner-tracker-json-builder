@@ -1,6 +1,5 @@
 import TextField from "../fields/text-field";
 import DatePicker from "../fields/date-picker";
-import TimePicker from "../fields/time-picker";
 import { Control } from "react-hook-form";
 import { FormValues } from "@/types";
 
@@ -19,11 +18,16 @@ function General({ control }: GeneralProps) {
       <TextField
         control={control}
         name="slug"
-        placeholder="Slug"
-        label="Slug"
+        placeholder="URL Path"
+        label="URL Path"
       />
       <DatePicker control={control} name="date" label="Start Date" />
-      <TimePicker />
+      <TextField
+        control={control}
+        name="time"
+        label="Start Time"
+        inputProps={{ type: "time" }}
+      />
     </div>
   );
 }

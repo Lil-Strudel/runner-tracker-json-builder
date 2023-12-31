@@ -72,7 +72,7 @@ function RaceStationField({ raceIndex, control }: RaceStationFieldProps) {
                       {stationSelected && !stationHasDistance && (
                         <TextField
                           name={`races.${raceIndex}.stations.${stationIndex}.distance`}
-                          placeholder="Distance"
+                          placeholder="Distance (miles)"
                         />
                       )}
 

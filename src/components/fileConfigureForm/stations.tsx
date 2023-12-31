@@ -1,7 +1,7 @@
 import { FormValues } from "@/types";
 import { Button } from "@/components/ui/button";
 import { Control, useFieldArray } from "react-hook-form";
-import { Plus } from "lucide-react";
+import { AlertCircle, Plus, Trash2 } from "lucide-react";
 import { useRef } from "react";
 import { useSprings, animated, config } from "@react-spring/web";
 import { useDrag } from "@use-gesture/react";
@@ -9,6 +9,7 @@ import { clamp, move } from "@/lib/utils";
 import TextField from "../fields/text-field";
 import { Checkbox } from "../ui/checkbox";
 import { FormControl, FormField, FormItem, FormLabel } from "../ui/form";
+import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
 
 const CARD_HEIGHT = 80;
 const CARD_GAP = 16; // same as gap-4
@@ -50,6 +51,7 @@ function Stations({ control }: StationsProps) {
 
   const [springs, api] = useSprings(fields.length, springFn(order.current));
 
+  // const bind = useDrag(({ args: [originalIndex], active, movement: [, y] }) => {
   useDrag(({ args: [originalIndex], active, movement: [, y] }) => {
     const curIndex = order.current.indexOf(originalIndex);
     const curRow = clamp(
@@ -66,16 +68,27 @@ function Stations({ control }: StationsProps) {
     }
   });
 
+  const handleDeleteStation = (index: number) => {
+    stationsField.remove(index);
+  };
+
   return (
     <div>
-      <div className="relative">
+      <Alert variant="info">
+        <AlertCircle className="h-4 w-4" />
+        <AlertTitle>Tip</AlertTitle>
+        <AlertDescription>
+          Leave distance blank if it is different between races
+        </AlertDescription>
+      </Alert>
+      <div className="relative mt-4">
         {springs.map((_, i) => (
           <div key={i} className="h-[96px]" />
         ))}
         <div className="absolute top-0 left-0 w-full">
           {springs.map(({ zIndex, shadow, y, scale }, i) => (
             <animated.div
-              key={i}
+              key={fields[i].id}
               style={{
                 zIndex,
                 boxShadow: shadow.to(
@@ -88,12 +101,12 @@ function Stations({ control }: StationsProps) {
               className="absolute bg-white rounded-md border w-full p-4"
               children={
                 <div className="flex items-center h-full w-full gap-4">
-                  {/*
-                    <AlignJustify
-                    className="cursor-pointer touch-none"
-                    {...bind(i)}
-                    />
-                 */}
+                  {
+                    // <AlignJustify
+                    //   className="cursor-pointer touch-none"
+                    //   {...bind(i)}
+                    // />
+                  }
                   <TextField
                     control={control}
                     name={`stations.${i}.name`}
@@ -102,7 +115,7 @@ function Stations({ control }: StationsProps) {
                   <TextField
                     control={control}
                     name={`stations.${i}.distance`}
-                    placeholder="Distance"
+                    placeholder="Distance (miles)"
                   />
                   <FormField
                     control={control}
@@ -121,6 +134,13 @@ function Stations({ control }: StationsProps) {
                       </FormItem>
                     )}
                   />
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    onClick={() => handleDeleteStation(i)}
+                  >
+                    <Trash2 className="h-4 w-4 opacity-50" />
+                  </Button>
                 </div>
               }
             />
