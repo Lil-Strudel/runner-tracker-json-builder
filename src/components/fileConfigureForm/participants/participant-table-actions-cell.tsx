@@ -50,6 +50,7 @@ function ParticipantTableActionsCell({
         </DropdownMenuContent>
       </DropdownMenu>
       <ParticipantEditDialog
+        mode="edit"
         control={control}
         participant={row.original}
         onEdit={(values) => {

@@ -11,11 +11,11 @@ import Stations from "./fileConfigureForm/stations";
 import Participants from "./fileConfigureForm/participants";
 import Races from "./fileConfigureForm/races";
 import { set } from "date-fns";
-import { saveObjectAsFile } from "@/lib/utils";
 import usePreventRefresh from "@/hooks/usePreventRefresh";
+import { saveObjectAsFile } from "@/lib/utils";
 
 interface FileConfigurePageProps {
-  initialValues: FormValues;
+  initialValues: Partial<FormValues>;
 }
 function FileConfigurePageContent(props: FileConfigurePageProps) {
   usePreventRefresh();
@@ -63,9 +63,7 @@ function FileConfigurePageContent(props: FileConfigurePageProps) {
   const onSubmit = (values: FormValues) => {
     const raceEvent = convertFormToRace(values);
 
-    console.log({ values, raceEvent });
-
-    // saveObjectAsFile("runner-tracker", "json", raceEvent);
+    saveObjectAsFile("runner-tracker", "json", raceEvent);
   };
 
   return (

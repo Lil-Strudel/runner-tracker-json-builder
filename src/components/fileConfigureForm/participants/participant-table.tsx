@@ -10,7 +10,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { ArrowUpDown, ChevronDown } from "lucide-react";
+import { ArrowUpDown, ChevronDown, Plus } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -33,6 +33,7 @@ import { FormValues, Participant } from "@/types";
 
 import { Control, UseControllerReturn } from "react-hook-form";
 import ParticipantTableActionsCell from "./participant-table-actions-cell";
+import ParticipantEditDialog from "./participant-edit-dialog";
 
 interface ParticipantsProps {
   control: Control<FormValues>;
@@ -45,6 +46,7 @@ function ParticipantTable({ control, participantsField }: ParticipantsProps) {
     age: false,
     gender: false,
   });
+  const [createDialogOpen, setCreateDialogOpen] = useState(false);
 
   const columns: ColumnDef<Participant>[] = useMemo(
     () => [
@@ -186,7 +188,7 @@ function ParticipantTable({ control, participantsField }: ParticipantsProps) {
 
   return (
     <div className="w-full">
-      <div className="flex items-center pb-4">
+      <div className="flex items-center pb-4 gap-4">
         <Input
           placeholder="Filter by first name..."
           value={
@@ -195,11 +197,11 @@ function ParticipantTable({ control, participantsField }: ParticipantsProps) {
           onChange={(event) =>
             table.getColumn("firstName")?.setFilterValue(event.target.value)
           }
-          className="max-w-sm"
+          className="max-w-xs"
         />
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="ml-auto">
+            <Button variant="outline">
               Columns <ChevronDown className="ml-2 h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
@@ -223,6 +225,24 @@ function ParticipantTable({ control, participantsField }: ParticipantsProps) {
               })}
           </DropdownMenuContent>
         </DropdownMenu>
+        <Button onClick={() => setCreateDialogOpen(true)}>
+          <Plus className="mr-2 h-4 w-4" />
+          Participant
+        </Button>
+
+        <ParticipantEditDialog
+          mode="create"
+          control={control}
+          onEdit={(values) => {
+            const newParticipants = [values, ...participantsField.field.value];
+
+            participantsField.field.onChange(newParticipants);
+          }}
+          dialogProps={{
+            open: createDialogOpen,
+            onOpenChange: setCreateDialogOpen,
+          }}
+        />
       </div>
       <div className="rounded-md border bg-white">
         <Table>

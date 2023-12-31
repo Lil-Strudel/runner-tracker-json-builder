@@ -19,21 +19,24 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { DialogProps } from "@radix-ui/react-alert-dialog";
 import { Control, useForm, useWatch } from "react-hook-form";
 
-interface ParticipantEditDialogProps {
+type ParticipantEditDialogProps = {
   control: Control<FormValues>;
-  participant: Participant;
   onEdit: (participant: Participant) => void;
   dialogProps?: DialogProps;
-}
+} & (
+  | { mode: "edit"; participant: Participant }
+  | { mode: "create"; participant?: never }
+);
 function ParticipantEditDialog({
   control,
+  mode,
   participant,
   onEdit,
   dialogProps,
 }: ParticipantEditDialogProps) {
   const form = useForm<Participant>({
     resolver: zodResolver(ParticipantValidator),
-    defaultValues: participant,
+    defaultValues: participant ?? { age: "" },
   });
 
   const races = useWatch({
@@ -56,10 +59,13 @@ function ParticipantEditDialog({
     <Dialog {...dialogProps}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>
-            Edit #{participant.bibNumber} {participant.firstName}{" "}
-            {participant.lastName}
-          </DialogTitle>
+          {mode === "create" && <DialogTitle>Add a Participant</DialogTitle>}
+          {mode === "edit" && (
+            <DialogTitle>
+              Edit #{participant.bibNumber} {participant.firstName}{" "}
+              {participant.lastName}
+            </DialogTitle>
+          )}
         </DialogHeader>
         <Form {...form}>
           <div className="grid grid-cols-2 gap-4">

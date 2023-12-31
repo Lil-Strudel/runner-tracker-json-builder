@@ -105,7 +105,7 @@ function Participants({ control }: ParticipantsProps) {
           />
           <Label htmlFor="csv-mode">Overide all participants on upload</Label>
         </div>
-        <Button onClick={handleCSVDownload}>
+        <Button className="w-[275px]" onClick={handleCSVDownload}>
           {participantsField.field.value.length === 0
             ? "Download Template CSV"
             : "Download Current CSV"}

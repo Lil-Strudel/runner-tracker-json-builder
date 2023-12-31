@@ -2,7 +2,10 @@ import { z } from "zod";
 
 export const StationReferenceValidator = z.object({
   stationNumber: z.coerce.number(),
-  distance: z.coerce.number().optional(),
+  distance: z.preprocess(
+    (val) => (val === "" ? undefined : val),
+    z.coerce.number().optional(),
+  ),
 });
 export type StationReference = z.infer<typeof StationReferenceValidator>;
 
@@ -16,7 +19,10 @@ export type Race = z.infer<typeof RaceValidator>;
 export const StationValidator = z.object({
   name: z.string().min(1, "Required"),
   stationNumber: z.coerce.number(),
-  distance: z.coerce.number().optional(),
+  distance: z.preprocess(
+    (val) => (val === "" ? undefined : val),
+    z.coerce.number().optional(),
+  ),
   stationNumberDisplayed: z.string().optional(),
 });
 export type Station = z.infer<typeof StationValidator>;
