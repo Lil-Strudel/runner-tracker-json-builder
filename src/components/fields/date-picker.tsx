@@ -43,18 +43,20 @@ function DatePicker<
               <PopoverTrigger asChild>
                 <FormControl>
                   <Button
-                    variant={"outline"}
+                    variant="outline"
                     className={cn(
-                      "w-[240px] pl-3 font-normal",
+                      "w-full pl-3 font-normal",
                       !field.value && "text-muted-foreground",
                     )}
                   >
                     {field.value ? (
-                      format(field.value, "PPP")
+                      <span className="truncate">
+                        {format(field.value, "PPP")}
+                      </span>
                     ) : (
                       <span>{placeholder ?? "Pick a date"}</span>
                     )}
-                    <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                    <CalendarIcon className="ml-2 h-4 w-4 opacity-50" />
                   </Button>
                 </FormControl>
               </PopoverTrigger>

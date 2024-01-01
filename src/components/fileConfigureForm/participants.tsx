@@ -96,8 +96,8 @@ function Participants({ control }: ParticipantsProps) {
   return (
     <div className="flex flex-col gap-4 items-center">
       <ParticipantFileUpload onUpload={handleParticipantUpload} />
-      <div className="w-full flex justify-between">
-        <div className="w-full flex items-center space-x-2">
+      <div className="w-full flex justify-between flex-col gap-4 sm:flex-row">
+        <div className="w-full flex items-center">
           <Switch
             id="csv-mode"
             checked={uploadBehavior === "override"}
@@ -105,7 +105,7 @@ function Participants({ control }: ParticipantsProps) {
           />
           <Label htmlFor="csv-mode">Overide all participants on upload</Label>
         </div>
-        <Button className="w-[275px]" onClick={handleCSVDownload}>
+        <Button className="w-full sm:w-[275px]" onClick={handleCSVDownload}>
           {participantsField.field.value.length === 0
             ? "Download Template CSV"
             : "Download Current CSV"}

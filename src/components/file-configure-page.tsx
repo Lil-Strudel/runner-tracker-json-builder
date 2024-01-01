@@ -67,22 +67,20 @@ function FileConfigurePageContent(props: FileConfigurePageProps) {
   };
 
   return (
-    <section className="py-14 flex flex-col">
+    <section className="py-4 flex flex-col">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <div className="max-w-screen-xl mx-auto px-4 md:px-8">
-            <div className="max-w-xl md:mx-auto">
+            <div className="max-w-xl mx-auto">
               <Tabs defaultValue="general">
-                <div className="flex justify-center">
+                <div className="flex flex-col gap-4 justify-center align-center sm:flex-row">
                   <TabsList>
                     <TabsTrigger value="general">General</TabsTrigger>
                     <TabsTrigger value="stations">Stations</TabsTrigger>
                     <TabsTrigger value="races">Races</TabsTrigger>
                     <TabsTrigger value="participants">Participants</TabsTrigger>
                   </TabsList>
-                  <Button type="submit" className="ml-4">
-                    Export File
-                  </Button>
+                  <Button type="submit">Export File</Button>
                 </div>
                 <div className="bg-muted rounded-md p-4 my-4">
                   <TabsContent value="general">
