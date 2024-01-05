@@ -5,7 +5,7 @@ import {
   RaceEvent,
   RaceEventValidator,
 } from "@/types";
-import { parse } from "date-fns";
+import { parse, parseISO } from "date-fns";
 import React, { useContext } from "react";
 import { z } from "zod";
 
@@ -21,11 +21,13 @@ function FileUploader() {
       startDate,
       ...values
     }: RaceEvent): FormValues => {
-      const [, month, day, year, time] = startDate.split(" ");
+      const date = parseISO(startDate);
 
-      const date = parse(`${month}-${day}-${year}`, "LLL-dd-yyyy", new Date());
-
-      const formValues = { ...values, date, time: time };
+      const formValues = {
+        ...values,
+        date,
+        time: date.toISOString().split("T")[1].split(".")[0],
+      };
 
       return FormValidator.parse(formValues);
     };
