@@ -73,7 +73,7 @@ export const CSVParticipantValidator = z.object({
   "Last Name": z.string(),
   Age: z.coerce.number(),
   Gender: z.union([z.literal("M"), z.literal("F"), z.literal("")]),
-  "Race Name": z.string(),
+  "Race Name": z.string().optional(),
   home: z.string().optional(),
 });
 export type CSVParticipant = z.infer<typeof CSVParticipantValidator>;

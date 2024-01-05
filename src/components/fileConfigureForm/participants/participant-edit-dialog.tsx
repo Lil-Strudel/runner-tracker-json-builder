@@ -44,7 +44,7 @@ function ParticipantEditDialog({
     name: "races",
   });
 
-  const raceNames = races.map((race) => race.name);
+  const raceNames = (races || []).map((race) => race.name);
 
   const onSubmit = (values: Participant) => {
     setTimeout(() => {
@@ -100,9 +100,9 @@ function ParticipantEditDialog({
                 ))}
               </SelectContent>
             </SelectField>
-            <SelectField control={form.control} name="gender" label="Gender">
+            <SelectField control={form.control} name="sex" label="Sex">
               <SelectTrigger>
-                <SelectValue placeholder="Gender" />
+                <SelectValue placeholder="Sex" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="M">Male</SelectItem>
@@ -115,22 +115,14 @@ function ParticipantEditDialog({
               </SelectTrigger>
               <SelectContent>
                 {[
-                  "M<20",
-                  "M20-29",
-                  "M30-39",
-                  "M40-49",
-                  "M50-59",
-                  "M60-69",
-                  "M70-79",
-                  "M80-89",
-                  "F<20",
-                  "F20-29",
-                  "F30-39",
-                  "F40-49",
-                  "F50-59",
-                  "F60-69",
-                  "F70-79",
-                  "F80-89",
+                  "<20",
+                  "20-29",
+                  "30-39",
+                  "40-49",
+                  "50-59",
+                  "60-69",
+                  "70-79",
+                  "80-89",
                 ].map((ageGroup, index) => (
                   <SelectItem key={index} value={ageGroup}>
                     {ageGroup}
@@ -138,6 +130,7 @@ function ParticipantEditDialog({
                 ))}
               </SelectContent>
             </SelectField>
+            <TextField control={form.control} name="home" label="Home" />
           </div>
           <Button onClick={form.handleSubmit(onSubmit)}>Save</Button>
         </Form>

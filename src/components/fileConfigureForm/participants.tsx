@@ -62,7 +62,7 @@ function Participants({ control }: ParticipantsProps) {
         Bib: participant.bibNumber,
         "First Name": participant.firstName,
         "Last Name": participant.lastName,
-        Gender: participant.gender,
+        Gender: participant.sex,
         Age: Number(participant.age.split("-")[0].replace(/\D/g, "")),
         "Race Name": participant.raceName,
       }),

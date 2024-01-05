@@ -1,10 +1,11 @@
 import { FormValues } from "@/types";
 import { Button } from "@/components/ui/button";
 import { Control, useFieldArray } from "react-hook-form";
-import { Plus, Trash2 } from "lucide-react";
+import { AlertCircle, Plus, Trash2 } from "lucide-react";
 import TextField from "../fields/text-field";
 import RaceStationField from "../fields/race-station-field";
 import { cn } from "@/lib/utils";
+import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
 
 interface RacesProps {
   control: Control<FormValues>;
@@ -23,7 +24,14 @@ function Races({ control }: RacesProps) {
 
   return (
     <div>
-      <div className="flex flex-col gap-4">
+      <Alert variant="info">
+        <AlertCircle className="h-4 w-4" />
+        <AlertTitle>Tip</AlertTitle>
+        <AlertDescription>
+          This is optional if using bib numbers to determine race
+        </AlertDescription>
+      </Alert>
+      <div className="flex flex-col gap-4 my-4">
         {fields.map((field, index) => (
           <div
             key={field.id}

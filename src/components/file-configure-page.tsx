@@ -39,7 +39,7 @@ function FileConfigurePageContent(props: FileConfigurePageProps) {
       minutes: Number(min),
     });
 
-    const sortedRaces = races.map((race) => ({
+    const sortedRaces = (races || []).map((race) => ({
       ...race,
       stations: race.stations.sort((a, b) => a.stationNumber - b.stationNumber),
     }));

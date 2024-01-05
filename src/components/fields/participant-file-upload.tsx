@@ -56,7 +56,7 @@ function ParticipantFileUpload({ onUpload }: ParticipantFileUploadProps) {
           firstName: result["First Name"],
           lastName: result["Last Name"],
           age: getAgeGroup(result.Age, result.Gender),
-          gender: result.Gender,
+          sex: result.Gender,
           raceName: result["Race Name"],
         }));
 

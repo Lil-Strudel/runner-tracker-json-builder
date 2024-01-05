@@ -4,8 +4,6 @@ import { Control, useFieldArray } from "react-hook-form";
 import { AlertCircle, Plus, Trash2 } from "lucide-react";
 import { useRef } from "react";
 import TextField from "../fields/text-field";
-import { Checkbox } from "../ui/checkbox";
-import { FormControl, FormField, FormItem, FormLabel } from "../ui/form";
 import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
 
 interface StationsProps {

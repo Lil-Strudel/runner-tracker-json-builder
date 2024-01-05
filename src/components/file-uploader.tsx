@@ -5,7 +5,7 @@ import {
   RaceEvent,
   RaceEventValidator,
 } from "@/types";
-import { parse, parseISO } from "date-fns";
+import { parseISO } from "date-fns";
 import React, { useContext } from "react";
 import { z } from "zod";
 
