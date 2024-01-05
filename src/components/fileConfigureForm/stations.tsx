@@ -53,16 +53,19 @@ function Stations({ control }: StationsProps) {
                 control={control}
                 name={`stations.${i}.name`}
                 placeholder="Name"
+                label="Name"
               />
               <TextField
                 control={control}
                 name={`stations.${i}.distance`}
                 placeholder="Distance (miles)"
+                label="Distance (miles)"
               />
               <TextField
                 control={control}
                 name={`stations.${i}.stationNumberDisplayed`}
-                placeholder="Distance (miles)"
+                placeholder="Station Number Display"
+                label="Display Override"
               />
               {
                 // <FormField
