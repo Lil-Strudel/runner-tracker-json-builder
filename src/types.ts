@@ -11,38 +11,29 @@ export type StationReference = z.infer<typeof StationReferenceValidator>;
 
 export const RaceValidator = z.object({
   name: z.string().min(1, "Required"),
-  distance: z.coerce.number(),
+  distance: z.coerce.number().optional(),
   stations: z.array(StationReferenceValidator),
 });
 export type Race = z.infer<typeof RaceValidator>;
 
 export const StationValidator = z.object({
-  name: z.string().min(1, "Required"),
+  name: z.string().optional(),
   stationNumber: z.coerce.number(),
+  stationNumberDisplayed: z.string().optional(),
   distance: z.preprocess(
     (val) => (val === "" ? undefined : val),
     z.coerce.number().optional(),
   ),
-  stationNumberDisplayed: z.string().optional(),
+  raceId: z.string().optional(),
 });
 export type Station = z.infer<typeof StationValidator>;
 
 export const ParticipantValidator = z.object({
+  age: z.string().optional(),
   bibNumber: z.coerce.number(),
-  firstName: z.string().min(1, "Required"),
-  lastName: z.string().min(1, "Required"),
-  age: z.union([
-    z.literal("<20"),
-    z.literal("20-29"),
-    z.literal("30-39"),
-    z.literal("40-49"),
-    z.literal("50-59"),
-    z.literal("60-69"),
-    z.literal("70-79"),
-    z.literal("80-89"),
-    z.literal(""),
-  ]),
-  sex: z.union([z.literal("M"), z.literal("F"), z.literal("")]),
+  firstName: z.string().optional(),
+  lastName: z.string().optional(),
+  sex: z.union([z.literal("M"), z.literal("F")]).optional(),
   raceName: z.string().optional(),
   home: z.string().optional(),
 });
