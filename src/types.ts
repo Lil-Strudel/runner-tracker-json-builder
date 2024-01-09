@@ -8,7 +8,6 @@ export const StationValidator = z.object({
     (val) => (val === "" ? undefined : val),
     z.coerce.number().optional(),
   ),
-  raceId: z.string().optional(),
 });
 export type Station = z.infer<typeof StationValidator>;
 
@@ -19,14 +18,28 @@ export const RaceValidator = z.object({
 });
 export type Race = z.infer<typeof RaceValidator>;
 
+export const EntryValidator = z.object({
+  timeIn: z.date().nullable(),
+  timeOut: z.date().nullable(),
+});
+export type Entry = z.infer<typeof EntryValidator>;
+
 export const ParticipantValidator = z.object({
-  age: z.string().optional(),
   bibNumber: z.coerce.number(),
+  age: z.string().optional(),
+  dnfReason: z.string().optional(),
+  dnfStation: z.preprocess(
+    (val) => (val === "" ? undefined : val),
+    z.coerce.number().optional(),
+  ),
   firstName: z.string().optional(),
   lastName: z.string().optional(),
-  sex: z.union([z.literal("M"), z.literal("F")]).optional(),
-  raceName: z.string().optional(),
   home: z.string().optional(),
+  note: z.string().optional(),
+  sex: z.union([z.literal("M"), z.literal("F")]).optional(),
+  team: z.string().optional(),
+  raceName: z.string().optional(),
+  entrys: z.record(z.number(), EntryValidator).optional(),
 });
 export type Participant = z.infer<typeof ParticipantValidator>;
 
