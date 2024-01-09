@@ -1,21 +1,5 @@
 import { z } from "zod";
 
-export const StationReferenceValidator = z.object({
-  stationNumber: z.coerce.number(),
-  distance: z.preprocess(
-    (val) => (val === "" ? undefined : val),
-    z.coerce.number().optional(),
-  ),
-});
-export type StationReference = z.infer<typeof StationReferenceValidator>;
-
-export const RaceValidator = z.object({
-  name: z.string().min(1, "Required"),
-  distance: z.coerce.number().optional(),
-  stations: z.array(StationReferenceValidator),
-});
-export type Race = z.infer<typeof RaceValidator>;
-
 export const StationValidator = z.object({
   name: z.string().optional(),
   stationNumber: z.coerce.number(),
@@ -28,6 +12,13 @@ export const StationValidator = z.object({
 });
 export type Station = z.infer<typeof StationValidator>;
 
+export const RaceValidator = z.object({
+  name: z.string().min(1, "Required"),
+  distance: z.coerce.number().optional(),
+  stations: z.array(StationValidator),
+});
+export type Race = z.infer<typeof RaceValidator>;
+
 export const ParticipantValidator = z.object({
   age: z.string().optional(),
   bibNumber: z.coerce.number(),
@@ -39,25 +30,6 @@ export const ParticipantValidator = z.object({
 });
 export type Participant = z.infer<typeof ParticipantValidator>;
 
-export const RaceEventValidator = z.object({
-  name: z.string().min(1, "Required"),
-  slug: z.string().min(1, "Required"),
-  startDate: z.string().min(1),
-  stations: z.array(StationValidator),
-  races: z.array(RaceValidator).optional(),
-  participants: z.array(ParticipantValidator),
-});
-export type RaceEvent = z.infer<typeof RaceEventValidator>;
-
-export const FormValidator = RaceEventValidator.omit({ startDate: true }).and(
-  z.object({
-    date: z.date(),
-    time: z.string().min(1, "Required"),
-  }),
-);
-
-export type FormValues = z.infer<typeof FormValidator>;
-
 export const CSVParticipantValidator = z.object({
   Bib: z.coerce.number(),
   "First Name": z.string(),
@@ -68,3 +40,20 @@ export const CSVParticipantValidator = z.object({
   home: z.string().optional(),
 });
 export type CSVParticipant = z.infer<typeof CSVParticipantValidator>;
+
+export const EventValidator = z.object({
+  name: z.string().min(1, "Required"),
+  slug: z.string().optional(),
+  startDate: z.date().optional(),
+  endDate: z.date().optional(),
+});
+export type Event = z.infer<typeof EventValidator>;
+
+export const FormValidator = EventValidator.and(
+  z.object({
+    stations: z.array(StationValidator),
+    races: z.array(RaceValidator).optional(),
+    participants: z.array(ParticipantValidator),
+  }),
+);
+export type FormValues = z.infer<typeof FormValidator>;
