@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { AppContext } from "@/AppContext";
-import { FormValidator, FormValues, RaceEvent } from "@/types";
+import { JSONValidator, FormValues, RaceEvent } from "@/types";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -21,23 +21,24 @@ function FileConfigurePageContent(props: FileConfigurePageProps) {
   usePreventRefresh();
 
   const form = useForm<FormValues>({
-    resolver: zodResolver(FormValidator),
+    resolver: zodResolver(JSONValidator),
     defaultValues: props.initialValues,
   });
 
   const convertFormToRace = ({
-    date,
-    time,
+    startTime,
+    endTime,
     races,
     stations,
     participants,
     ...values
   }: FormValues): RaceEvent => {
-    const [hours, min] = time.split(":");
-    const fullDate = set(date, {
-      hours: Number(hours),
-      minutes: Number(min),
-    });
+    // TODO
+    // const [hours, min] = startTime.split(":");
+    // const fullDate = set(values.startDate, {
+    //   hours: Number(hours),
+    //   minutes: Number(min),
+    // });
 
     const sortedRaces = (races || []).map((race) => ({
       ...race,
@@ -53,7 +54,7 @@ function FileConfigurePageContent(props: FileConfigurePageProps) {
 
     return {
       ...values,
-      startDate: fullDate.toString(),
+      // startDate: fullDate.toString(),
       races: sortedRaces,
       stations: sortedStations,
       participants: sortedParticipants,

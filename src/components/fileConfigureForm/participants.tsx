@@ -62,7 +62,7 @@ function Participants({ control }: ParticipantsProps) {
     const values = participantsField.field.value.map<CSVParticipant>(
       (participant) => {
         let sex: "M" | "F" | undefined;
-        let age: number | undefined;
+        let age: string | undefined;
         let ageGroup: string | undefined;
 
         if (participant.age) {
@@ -71,13 +71,14 @@ function Participants({ control }: ParticipantsProps) {
             if (participant.age.includes("M")) {
               ageGroup = participant.age;
               sex = "M";
-            }
-            if (participant.age.includes("F")) {
+            } else if (participant.age.includes("F")) {
               ageGroup = participant.age;
               sex = "F";
+            } else {
+              age = participant.age;
             }
           } else {
-            age = ageNumber;
+            age = participant.age;
             sex = participant.sex;
             ageGroup = getAgeGroup(ageNumber, participant.sex ?? "");
           }
@@ -100,11 +101,15 @@ function Participants({ control }: ParticipantsProps) {
 
     if (values.length === 0) {
       values.push({
+        Bib: 0,
         "First Name": "",
         "Last Name": "",
-        Age: 0,
-        Bib: 0,
+        Home: "",
+        Note: "",
+        Team: "",
         Sex: "",
+        Age: "",
+        "Age Group": "",
         "Race Name": "",
       });
     }

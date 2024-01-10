@@ -51,7 +51,7 @@ export const CSVParticipantValidator = z.object({
   Note: z.string().optional(),
   Team: z.string().optional(),
   "Race Name": z.string().optional(),
-  Age: z.coerce.number().optional(),
+  Age: z.string().optional(),
   Sex: z.union([z.literal("M"), z.literal("F"), z.literal("")]).optional(),
   "Age Group": z.string().optional(),
 });
