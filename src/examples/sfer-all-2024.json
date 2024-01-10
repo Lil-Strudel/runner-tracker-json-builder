@@ -1,0 +1,141 @@
+{
+  "name": "(ALL) Salt Flats Endurance Runs 2024",
+  "slug": "SFER24",
+  "startDate": "2024-03-05T11:00:00.000Z",
+  "startStation": 0,
+  "finishStation": 15,
+  "stations": [
+    {
+      "name": "Start | MNS:",
+      "distance": 10.0,
+      "stationNumber": 0,
+      "stationNumberDisplayed": " "
+    },
+    {
+      "name": "CSM: 10.0 | MNS:",
+      "distance": 5.5,
+      "stationNumber": 1
+    },
+    {
+      "name": "CSM: 15.5 | MNS:",
+      "distance": 7.3,
+      "stationNumber": 2
+    },
+    {
+      "name": "CSM: 22.8 | MNS: 2.9",
+      "distance": 9.4,
+      "stationNumber": 3
+    },
+    {
+      "name": "CSM: 25.7 | MNS:",
+      "distance": 6.2,
+      "stationNumber": 4
+    },
+    {
+      "name": "CSM: 31.9 | MNS:",
+      "distance": 8.1,
+      "stationNumber": 5
+    },
+    {
+      "name": "CSM: 40.0 | MNS:",
+      "distance": 10.4,
+      "stationNumber": 6
+    },
+    {
+      "name": "CSM: 50.4 | MNS:",
+      "distance": 6.9,
+      "stationNumber": 7
+    },
+    {
+      "name": "CSM: 57.3 | MNS:",
+      "distance": 4.3,
+      "stationNumber": 8
+    },
+    {
+      "name": "CSM: 61.6 | MNS:",
+      "distance": 5.3,
+      "stationNumber": 9
+    },
+  {
+      "name": "CSM: 66.9 - 32.2 | MNS: 6.2",
+      "distance": 7.4,
+      "stationNumber": 10
+    },
+  {
+      "name": "CSM: 73.1 - 39.6 | MNS:",
+      "distance": 7.4,
+      "stationNumber": 11
+    },
+  {
+      "name": "CSM: 80.5 | MNS:",
+      "distance": 8.4,
+      "stationNumber": 12
+    },
+  {
+      "name": "CSM: 88.9 | MNS:",
+      "distance": 7.4,
+      "stationNumber": 13
+    },
+  {
+      "name": "CSM: 96.3 - 46.0 | MNS: 3.7",
+      "distance": 4.0,
+      "stationNumber": 14
+    },
+  {
+      "name": "FINISH | 100.0",
+      "distance": 50.0,
+      "stationNumber": 15,
+      "stationNumberDisplayed": " "
+    }
+  ],
+  "participants": [
+    {
+      "age": "60-69",
+      "bibNumber": 1,
+      "firstName": "JJ",
+      "lastName": "WALLACE",
+      "sex": "M",
+      "home": "Orem, UT"
+    },
+    {
+      "age": "30-39",
+      "bibNumber": 2,
+      "firstName": "Tyler",
+      "lastName": "Allred",
+      "sex": "M",
+      "home": "Mapleton, UT"
+    },
+    {
+      "age": "40-49",
+      "bibNumber": 3,
+      "firstName": "Shane",
+      "lastName": "Armitage",
+      "sex": "M",
+      "home": "American Fork, UT"
+    },
+    {
+      "age": "30-39",
+      "bibNumber": 4,
+      "firstName": "Taran",
+      "lastName": "Bailey",
+      "sex": "M",
+      "home": "Orem, UT"
+    },
+    {
+      "age": "50-59",
+      "bibNumber": 5,
+      "firstName": "Chris",
+      "lastName": "Barnes",
+      "sex": "M",
+      "home": "Murphy, TX"
+    },
+    {
+      "age": "50-59",
+      "bibNumber": 6,
+      "firstName": "Andrew",
+      "lastName": "Barney",
+      "sex": "M",
+      "home": "American Fork, UT"
+    }
+  ]
+}

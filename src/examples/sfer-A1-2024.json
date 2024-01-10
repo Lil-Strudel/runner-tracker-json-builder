@@ -1,0 +1,89 @@
+{
+  "name": "(A1) Salt Flats Endurance Runs 2024",
+  "slug": "A1 SFER24",
+  "startDate": "2024-03-05T11:00:00.000Z",
+  "startStation": 0,
+  "finishStation": 3,
+  "stations": [
+    {
+      "name": "Start | MNS:",
+      "distance": 10.0,
+      "stationNumber": 0,
+      "stationNumberDisplayed": " "
+    },
+    {
+      "name": "CSM: 10.0 | MNS:",
+      "distance": 5.5,
+      "stationNumber": 1,
+      "stationNumberDisplayed": "1a"
+    },
+    {
+      "name": "CSM: 15.5 | MNS:",
+      "distance": 7.3,
+      "stationNumber": 2,
+      "stationNumberDisplayed": "2"
+    },
+    {
+      "name": "CSM: 22.8 | MNS: 2.9",
+      "distance": 9.4,
+      "stationNumber": 3,
+      "stationNumberDisplayed": "1b"
+    },
+  {
+      "name": "FINISH | 100.0",
+      "distance": 50.0,
+      "stationNumber": 15,
+      "stationNumberDisplayed": " "
+    }
+ ],
+  "participants": [
+    {
+      "age": "60-69",
+      "bibNumber": 1,
+      "firstName": "JJ",
+      "lastName": "WALLACE",
+      "sex": "M",
+      "home": "Orem, UT"
+    },
+    {
+      "age": "30-39",
+      "bibNumber": 2,
+      "firstName": "Tyler",
+      "lastName": "Allred",
+      "sex": "M",
+      "home": "Mapleton, UT"
+    },
+    {
+      "age": "40-49",
+      "bibNumber": 3,
+      "firstName": "Shane",
+      "lastName": "Armitage",
+      "sex": "M",
+      "home": "American Fork, UT"
+    },
+    {
+      "age": "30-39",
+      "bibNumber": 4,
+      "firstName": "Taran",
+      "lastName": "Bailey",
+      "sex": "M",
+      "home": "Orem, UT"
+    },
+    {
+      "age": "50-59",
+      "bibNumber": 5,
+      "firstName": "Chris",
+      "lastName": "Barnes",
+      "sex": "M",
+      "home": "Murphy, TX"
+    },
+    {
+      "age": "50-59",
+      "bibNumber": 6,
+      "firstName": "Andrew",
+      "lastName": "Barney",
+      "sex": "M",
+      "home": "American Fork, UT"
+    }
+  ]
+}
