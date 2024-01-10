@@ -2,39 +2,12 @@ import { z } from "zod";
 
 import Papa from "papaparse";
 import { CSVParticipantValidator, Participant } from "@/types";
+import { getAgeGroup } from "@/lib/utils";
 
 interface ParticipantFileUploadProps {
   onUpload: (participants: Participant[]) => void;
 }
 function ParticipantFileUpload({ onUpload }: ParticipantFileUploadProps) {
-  const getAgeGroup = (age: number, gender: "" | "M" | "F") => {
-    if (!gender) return "";
-    if (age === 0) return "";
-
-    let ageGroup = "";
-    if (age < 20) {
-      ageGroup = "<20";
-    } else if (age < 30) {
-      ageGroup = "20-29";
-    } else if (age < 40) {
-      ageGroup = "30-39";
-    } else if (age < 50) {
-      ageGroup = "40-49";
-    } else if (age < 60) {
-      ageGroup = "50-59";
-    } else if (age < 70) {
-      ageGroup = "60-69";
-    } else if (age < 80) {
-      ageGroup = "70-79";
-    } else if (age < 90) {
-      ageGroup = "80-89";
-    }
-
-    if (!ageGroup) return "";
-
-    return `${gender}${ageGroup}` as Participant["age"];
-  };
-
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (!event.target.files) return;
 
@@ -51,14 +24,35 @@ function ParticipantFileUpload({ onUpload }: ParticipantFileUploadProps) {
 
         const results = z.array(CSVParticipantValidator).parse(records);
 
-        const formattedResults = results.map<Participant>((result) => ({
-          bibNumber: result.Bib,
-          firstName: result["First Name"],
-          lastName: result["Last Name"],
-          age: getAgeGroup(result.Age, result.Gender),
-          sex: result.Gender,
-          raceName: result["Race Name"],
-        }));
+        const formattedResults = results.map<Participant>((result) => {
+          let ageFromGroup: string | undefined;
+          let sexFromGroup: "M" | "F" | undefined;
+
+          if (result["Age Group"]) {
+            if (result["Age Group"][0] === "M") {
+              sexFromGroup = "M";
+              ageFromGroup = result["Age Group"].slice(1);
+            }
+            if (result["Age Group"][0] === "F") {
+              sexFromGroup = "F";
+              ageFromGroup = result["Age Group"].slice(1);
+            } else {
+              ageFromGroup = result["Age Group"];
+            }
+          }
+
+          return {
+            bibNumber: result.Bib,
+            firstName: result["First Name"],
+            lastName: result["Last Name"],
+            age: result.Age ? String(result.Age) : ageFromGroup,
+            sex: result.Sex ? result.Sex : sexFromGroup,
+            raceName: result["Race Name"],
+            note: result.Note,
+            home: result.Home,
+            team: result.Team,
+          };
+        });
 
         onUpload(formattedResults);
       } catch (err) {

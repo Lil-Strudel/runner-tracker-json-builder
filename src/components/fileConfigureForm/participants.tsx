@@ -6,7 +6,7 @@ import { produce } from "immer";
 import { Button } from "../ui/button";
 import { Switch } from "../ui/switch";
 import Papa from "papaparse";
-import { saveObjectAsFile } from "@/lib/utils";
+import { getAgeGroup, saveObjectAsFile } from "@/lib/utils";
 import { Label } from "@radix-ui/react-label";
 import { useState } from "react";
 import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
@@ -79,6 +79,7 @@ function Participants({ control }: ParticipantsProps) {
           } else {
             age = ageNumber;
             sex = participant.sex;
+            ageGroup = getAgeGroup(ageNumber, participant.sex ?? "");
           }
         }
 
