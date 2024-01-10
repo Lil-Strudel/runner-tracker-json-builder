@@ -1,10 +1,5 @@
 import { AppContext } from "@/AppContext";
-import {
-  FormValidator,
-  FormValues,
-  RaceEvent,
-  RaceEventValidator,
-} from "@/types";
+import { FormValidator, FormValues, File, FileValidator } from "@/types";
 import { parseISO } from "date-fns";
 import React, { useContext } from "react";
 import { z } from "zod";
@@ -17,16 +12,15 @@ function FileUploader() {
 
     const fileReader = new FileReader();
 
-    const transformRaceEventToForm = ({
-      startDate,
-      ...values
-    }: RaceEvent): FormValues => {
-      const date = parseISO(startDate);
-
-      const formValues = {
+    const transformFileToForm = (values: File): FormValues => {
+      const formValues: FormValues = {
         ...values,
-        date,
-        time: date.toISOString().split("T")[1].split(".")[0],
+        startTime: values.startDate
+          ? values.startDate.toISOString().split("T")[1].split(".")[0]
+          : undefined,
+        endTime: values.endDate
+          ? values.endDate.toISOString().split("T")[1].split(".")[0]
+          : undefined,
       };
 
       return FormValidator.parse(formValues);
@@ -36,9 +30,9 @@ function FileUploader() {
       try {
         const parsedContent = JSON.parse(fileReader.result as string);
 
-        const raceEvent = RaceEventValidator.parse(parsedContent);
+        const fileData = FileValidator.parse(parsedContent);
 
-        const initialValues = transformRaceEventToForm(raceEvent);
+        const initialValues = transformFileToForm(fileData);
 
         setAppState({
           mode: "configure",

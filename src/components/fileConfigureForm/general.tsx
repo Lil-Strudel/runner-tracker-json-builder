@@ -21,11 +21,18 @@ function General({ control }: GeneralProps) {
         placeholder="URL Path"
         label="URL Path"
       />
-      <DatePicker control={control} name="date" label="Start Date" />
+      <DatePicker control={control} name="startDate" label="Start Date" />
       <TextField
         control={control}
-        name="time"
+        name="startTime"
         label="Start Time"
+        inputProps={{ type: "time" }}
+      />
+      <DatePicker control={control} name="endDate" label="End Date" />
+      <TextField
+        control={control}
+        name="endTime"
+        label="End Time"
         inputProps={{ type: "time" }}
       />
     </div>

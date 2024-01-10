@@ -62,28 +62,9 @@ function Stations({ control }: StationsProps) {
               <TextField
                 control={control}
                 name={`stations.${i}.stationNumberDisplayed`}
-                placeholder="Station Number Display"
+                placeholder="Display Override"
                 label="Display Override"
               />
-              {
-                // <FormField
-                //   control={control}
-                //   name={`stations.${i}.stationNumberDisplayed`}
-                //   render={({ field }) => (
-                //     <FormItem className="flex flex-row items-center space-y-0">
-                //       <FormControl>
-                //         <Checkbox
-                //           checked={field.value === " "}
-                //           onCheckedChange={(checked) =>
-                //             field.onChange(checked ? " " : "")
-                //           }
-                //         />
-                //       </FormControl>
-                //       <FormLabel className="ml-2">Hide Number</FormLabel>
-                //     </FormItem>
-                //   )}
-                // />
-              }
               <Button
                 variant="outline"
                 size="icon"

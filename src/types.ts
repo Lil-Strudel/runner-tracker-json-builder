@@ -19,8 +19,8 @@ export const RaceValidator = z.object({
 export type Race = z.infer<typeof RaceValidator>;
 
 export const EntryValidator = z.object({
-  timeIn: z.date().nullable(),
-  timeOut: z.date().nullable(),
+  timeIn: z.coerce.date().nullable(),
+  timeOut: z.coerce.date().nullable(),
 });
 export type Entry = z.infer<typeof EntryValidator>;
 
@@ -57,16 +57,24 @@ export type CSVParticipant = z.infer<typeof CSVParticipantValidator>;
 export const EventValidator = z.object({
   name: z.string().min(1, "Required"),
   slug: z.string().optional(),
-  startDate: z.date().optional(),
-  endDate: z.date().optional(),
+  startDate: z.coerce.date().optional(),
+  endDate: z.coerce.date().optional(),
 });
 export type Event = z.infer<typeof EventValidator>;
 
-export const FormValidator = EventValidator.and(
+export const FileValidator = EventValidator.and(
   z.object({
     stations: z.array(StationValidator),
     races: z.array(RaceValidator).optional(),
     participants: z.array(ParticipantValidator),
+  }),
+);
+export type File = z.infer<typeof FileValidator>;
+
+export const FormValidator = FileValidator.and(
+  z.object({
+    startTime: z.string().optional(),
+    endTime: z.string().optional(),
   }),
 );
 export type FormValues = z.infer<typeof FormValidator>;
