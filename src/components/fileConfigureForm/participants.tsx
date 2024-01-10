@@ -9,6 +9,8 @@ import Papa from "papaparse";
 import { saveObjectAsFile } from "@/lib/utils";
 import { Label } from "@radix-ui/react-label";
 import { useState } from "react";
+import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
+import { AlertCircle } from "lucide-react";
 
 interface ParticipantsProps {
   control: Control<FormValues>;
@@ -58,14 +60,41 @@ function Participants({ control }: ParticipantsProps) {
 
   const handleCSVDownload = () => {
     const values = participantsField.field.value.map<CSVParticipant>(
-      (participant) => ({
-        Bib: participant.bibNumber,
-        "First Name": participant.firstName,
-        "Last Name": participant.lastName,
-        Gender: participant.sex,
-        Age: Number(participant.age.split("-")[0].replace(/\D/g, "")),
-        "Race Name": participant.raceName,
-      }),
+      (participant) => {
+        let sex: "M" | "F" | undefined;
+        let age: number | undefined;
+        let ageGroup: string | undefined;
+
+        if (participant.age) {
+          const ageNumber = Number(participant.age);
+          if (isNaN(ageNumber)) {
+            if (participant.age.includes("M")) {
+              ageGroup = participant.age;
+              sex = "M";
+            }
+            if (participant.age.includes("F")) {
+              ageGroup = participant.age;
+              sex = "F";
+            }
+          } else {
+            age = ageNumber;
+            sex = participant.sex;
+          }
+        }
+
+        return {
+          Bib: participant.bibNumber,
+          "First Name": participant.firstName,
+          "Last Name": participant.lastName,
+          Home: participant.home,
+          Note: participant.note,
+          Team: participant.team,
+          Sex: sex,
+          Age: age,
+          "Age Group": ageGroup,
+          "Race Name": participant.raceName,
+        };
+      },
     );
 
     if (values.length === 0) {
@@ -74,7 +103,7 @@ function Participants({ control }: ParticipantsProps) {
         "Last Name": "",
         Age: 0,
         Bib: 0,
-        Gender: "",
+        Sex: "",
         "Race Name": "",
       });
     }
@@ -95,7 +124,14 @@ function Participants({ control }: ParticipantsProps) {
 
   return (
     <div className="flex flex-col gap-4 items-center">
-      <ParticipantFileUpload onUpload={handleParticipantUpload} />
+      <Alert variant="info">
+        <AlertCircle className="h-4 w-4" />
+        <AlertTitle>Tip</AlertTitle>
+        <AlertDescription>
+          When importing a csv, I will use age and sex if provided, but if they
+          are empty, I will do my best to extract it from age group.
+        </AlertDescription>
+      </Alert>
       <div className="w-full flex justify-between flex-col gap-4 sm:flex-row">
         <div className="w-full flex items-center">
           <Switch
@@ -105,12 +141,14 @@ function Participants({ control }: ParticipantsProps) {
           />
           <Label htmlFor="csv-mode">Overide all participants on upload</Label>
         </div>
+
         <Button className="w-full sm:w-[275px]" onClick={handleCSVDownload}>
           {participantsField.field.value.length === 0
             ? "Download Template CSV"
             : "Download Current CSV"}
         </Button>
       </div>
+      <ParticipantFileUpload onUpload={handleParticipantUpload} />
       <ParticipantTable
         control={control}
         participantsField={participantsField}
