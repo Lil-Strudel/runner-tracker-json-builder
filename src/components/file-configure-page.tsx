@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { AppContext } from "@/AppContext";
-import { JSONValidator, FormValues, RaceEvent } from "@/types";
+import { File, FormValidator, FormValues } from "@/types";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -10,7 +10,6 @@ import General from "./fileConfigureForm/general";
 import Stations from "./fileConfigureForm/stations";
 import Participants from "./fileConfigureForm/participants";
 import Races from "./fileConfigureForm/races";
-import { set } from "date-fns";
 import usePreventRefresh from "@/hooks/usePreventRefresh";
 import { saveObjectAsFile } from "@/lib/utils";
 
@@ -21,18 +20,18 @@ function FileConfigurePageContent(props: FileConfigurePageProps) {
   usePreventRefresh();
 
   const form = useForm<FormValues>({
-    resolver: zodResolver(JSONValidator),
+    resolver: zodResolver(FormValidator),
     defaultValues: props.initialValues,
   });
 
-  const convertFormToRace = ({
+  const convertFormToFile = ({
     startTime,
     endTime,
     races,
     stations,
     participants,
     ...values
-  }: FormValues): RaceEvent => {
+  }: FormValues): File => {
     // TODO
     // const [hours, min] = startTime.split(":");
     // const fullDate = set(values.startDate, {
@@ -62,7 +61,7 @@ function FileConfigurePageContent(props: FileConfigurePageProps) {
   };
 
   const onSubmit = (values: FormValues) => {
-    const raceEvent = convertFormToRace(values);
+    const raceEvent = convertFormToFile(values);
 
     saveObjectAsFile("runner-tracker", "json", raceEvent);
   };

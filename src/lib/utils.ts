@@ -90,5 +90,5 @@ export const getAgeGroup = (age: number, gender: "" | "M" | "F") => {
 
   if (!ageGroup) return "";
 
-  return `${gender}${ageGroup}` as Participant["age"];
+  return `${gender}${ageGroup}`;
 };

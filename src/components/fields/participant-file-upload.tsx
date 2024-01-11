@@ -2,7 +2,6 @@ import { z } from "zod";
 
 import Papa from "papaparse";
 import { CSVParticipantValidator, Participant } from "@/types";
-import { getAgeGroup } from "@/lib/utils";
 
 interface ParticipantFileUploadProps {
   onUpload: (participants: Participant[]) => void;
