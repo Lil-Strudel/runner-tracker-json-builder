@@ -43,8 +43,8 @@ function ParticipantTable({ control, participantsField }: ParticipantsProps) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({
+    raceName: false,
     age: false,
-    gender: false,
   });
   const [createDialogOpen, setCreateDialogOpen] = useState(false);
 
@@ -121,7 +121,7 @@ function ParticipantTable({ control, participantsField }: ParticipantsProps) {
         cell: ({ row }) => <div>{row.getValue("age")}</div>,
       },
       {
-        accessorKey: "gender",
+        accessorKey: "sex",
         header: ({ column }) => {
           return (
             <Button
@@ -130,12 +130,12 @@ function ParticipantTable({ control, participantsField }: ParticipantsProps) {
                 column.toggleSorting(column.getIsSorted() === "asc")
               }
             >
-              Gender
+              Sex
               <ArrowUpDown className="ml-2 h-4 w-4" />
             </Button>
           );
         },
-        cell: ({ row }) => <div>{row.getValue("gender")}</div>,
+        cell: ({ row }) => <div>{row.getValue("sex")}</div>,
       },
       {
         accessorKey: "raceName",
