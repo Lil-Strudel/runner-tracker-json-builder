@@ -76,6 +76,7 @@ function Participants({ control }: ParticipantsProps) {
               sex = "F";
             } else {
               age = participant.age;
+              sex = participant.sex;
             }
           } else {
             age = participant.age;

@@ -28,11 +28,10 @@ function ParticipantFileUpload({ onUpload }: ParticipantFileUploadProps) {
           let sexFromGroup: "M" | "F" | undefined;
 
           if (result["Age Group"]) {
-            if (result["Age Group"][0] === "M") {
+            if (result["Age Group"].charAt(0) === "M") {
               sexFromGroup = "M";
               ageFromGroup = result["Age Group"].slice(1);
-            }
-            if (result["Age Group"][0] === "F") {
+            } else if (result["Age Group"].charAt(0) === "F") {
               sexFromGroup = "F";
               ageFromGroup = result["Age Group"].slice(1);
             } else {
@@ -40,16 +39,21 @@ function ParticipantFileUpload({ onUpload }: ParticipantFileUploadProps) {
             }
           }
 
+          const age = result.Age ? String(result.Age) : ageFromGroup;
+          const sex = result.Sex ? result.Sex : sexFromGroup;
+
           return {
             bibNumber: result.Bib,
-            firstName: result["First Name"],
-            lastName: result["Last Name"],
-            age: result.Age ? String(result.Age) : ageFromGroup,
-            sex: result.Sex ? result.Sex : sexFromGroup,
-            raceName: result["Race Name"],
-            note: result.Note,
-            home: result.Home,
-            team: result.Team,
+            ...(result["First Name"]
+              ? { firstName: result["First Name"] }
+              : {}),
+            ...(result["Last Name"] ? { lastName: result["Last Name"] } : {}),
+            ...(age ? { age } : {}),
+            ...(sex ? { sex } : {}),
+            ...(result["Race Name"] ? { raceName: result["Race Name"] } : {}),
+            ...(result.Note ? { note: result.Note } : {}),
+            ...(result.Home ? { home: result.Home } : {}),
+            ...(result.Team ? { team: result.Team } : {}),
           };
         });
 
