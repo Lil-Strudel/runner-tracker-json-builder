@@ -62,6 +62,14 @@ export const EventValidator = z.object({
   slug: z.string().optional(),
   startDate: z.coerce.date().optional(),
   endDate: z.coerce.date().optional(),
+  startStation: z.preprocess(
+    (val) => (val === "" ? undefined : val),
+    z.coerce.number().optional(),
+  ),
+  finishStation: z.preprocess(
+    (val) => (val === "" ? undefined : val),
+    z.coerce.number().optional(),
+  ),
 });
 export type Event = z.infer<typeof EventValidator>;
 

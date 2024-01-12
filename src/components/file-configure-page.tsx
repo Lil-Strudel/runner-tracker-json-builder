@@ -12,6 +12,7 @@ import Participants from "./fileConfigureForm/participants";
 import Races from "./fileConfigureForm/races";
 import usePreventRefresh from "@/hooks/usePreventRefresh";
 import { saveObjectAsFile } from "@/lib/utils";
+import { set } from "date-fns";
 
 interface FileConfigurePageProps {
   initialValues: Partial<FormValues>;
@@ -27,17 +28,33 @@ function FileConfigurePageContent(props: FileConfigurePageProps) {
   const convertFormToFile = ({
     startTime,
     endTime,
+    startDate,
+    endDate,
     races,
     stations,
     participants,
     ...values
   }: FormValues): File => {
-    // TODO
-    // const [hours, min] = startTime.split(":");
-    // const fullDate = set(values.startDate, {
-    //   hours: Number(hours),
-    //   minutes: Number(min),
-    // });
+    let actualStartDate, actualEndDate;
+    if (startDate && startTime) {
+      const [hours, min] = startTime.split(":");
+      actualStartDate = set(startDate, {
+        hours: Number(hours),
+        minutes: Number(min),
+      });
+    } else if (startDate) {
+      actualStartDate = startDate;
+    }
+
+    if (endDate && endTime) {
+      const [hours, min] = endTime.split(":");
+      actualStartDate = set(endDate, {
+        hours: Number(hours),
+        minutes: Number(min),
+      });
+    } else if (endDate) {
+      actualEndDate = endDate;
+    }
 
     const sortedRaces = (races || []).map((race) => ({
       ...race,
@@ -53,7 +70,8 @@ function FileConfigurePageContent(props: FileConfigurePageProps) {
 
     return {
       ...values,
-      // startDate: fullDate.toString(),
+      ...(actualStartDate ? { startDate: actualStartDate } : {}),
+      ...(actualEndDate ? { endDate: actualEndDate } : {}),
       races: sortedRaces,
       stations: sortedStations,
       participants: sortedParticipants,
