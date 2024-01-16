@@ -1,5 +1,6 @@
 import { AppContext } from "@/AppContext";
 import { FormValidator, FormValues, File, FileValidator } from "@/types";
+import { format } from "date-fns";
 import React, { useContext } from "react";
 import { z } from "zod";
 
@@ -15,10 +16,10 @@ function FileUploader() {
       const formValues: FormValues = {
         ...values,
         startTime: values.startDate
-          ? values.startDate.toISOString().split("T")[1].split(".")[0]
+          ? format(values.startDate, "HH:mm:ss")
           : undefined,
         endTime: values.endDate
-          ? values.endDate.toISOString().split("T")[1].split(".")[0]
+          ? format(values.endDate, "HH:mm:ss")
           : undefined,
       };
 
