@@ -89,6 +89,7 @@ export type File = z.infer<typeof FileValidator>;
 
 export const FormValidator = FileValidator.and(
   z.object({
+    fileName: z.string().optional(),
     startTime: z.string().optional(),
     endTime: z.string().optional(),
   }),
