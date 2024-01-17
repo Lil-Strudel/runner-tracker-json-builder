@@ -42,7 +42,9 @@ interface ParticipantsProps {
 function ParticipantTable({ control, participantsField }: ParticipantsProps) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({
+    raceName: false,
+  });
   const [createDialogOpen, setCreateDialogOpen] = useState(false);
 
   const columns: ColumnDef<Participant>[] = useMemo(
