@@ -1,7 +1,6 @@
 import { CSVParticipant, FormValues, Participant } from "@/types";
 import ParticipantTable from "./participants/participant-table";
 import { Control, useController } from "react-hook-form";
-import ParticipantFileUpload from "../fields/participant-file-upload";
 import { produce } from "immer";
 import { Button } from "../ui/button";
 import { Switch } from "../ui/switch";
@@ -11,6 +10,8 @@ import { Label } from "@radix-ui/react-label";
 import { useState } from "react";
 import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
 import { AlertCircle } from "lucide-react";
+import ParticipantFileUpload from "../fields/participant-file-upload";
+import UltraParticipantFileUpload from "../fields/ultra-participant-file-upload";
 
 interface ParticipantsProps {
   control: Control<FormValues>;
@@ -22,7 +23,7 @@ function Participants({ control }: ParticipantsProps) {
   });
 
   const [uploadBehavior, setUploadBehavior] = useState<"update" | "override">(
-    "update",
+    "override",
   );
 
   const handleParticipantUpload = (participants: Participant[]) => {
@@ -140,7 +141,7 @@ function Participants({ control }: ParticipantsProps) {
         </AlertDescription>
       </Alert>
       <div className="w-full flex justify-between flex-col gap-4 sm:flex-row">
-        <div className="w-full flex items-center">
+        <div className="w-full flex items-center gap-2">
           <Switch
             id="csv-mode"
             checked={uploadBehavior === "override"}
@@ -155,7 +156,10 @@ function Participants({ control }: ParticipantsProps) {
             : "Download Current CSV"}
         </Button>
       </div>
-      <ParticipantFileUpload onUpload={handleParticipantUpload} />
+      <div className="flex gap-4 w-full">
+        <ParticipantFileUpload onUpload={handleParticipantUpload} />
+        <UltraParticipantFileUpload onUpload={handleParticipantUpload} />
+      </div>
       <ParticipantTable
         control={control}
         participantsField={participantsField}

@@ -62,6 +62,20 @@ export const CSVParticipantValidator = z.object({
 });
 export type CSVParticipant = z.infer<typeof CSVParticipantValidator>;
 
+export const UltraCSVParticipantValidator = z.object({
+  Rank: optionalCleanedString,
+  "Age Rank": optionalCleanedString,
+  Results: optionalCleanedString,
+  Target: optionalCleanedString,
+  Age: optionalCleanedString,
+  First: optionalCleanedString,
+  Last: optionalCleanedString,
+  City: optionalCleanedString,
+  Loc: optionalCleanedString,
+  Bib: z.coerce.number(),
+});
+export type UltraCSVParticipant = z.infer<typeof UltraCSVParticipantValidator>;
+
 export const EventValidator = z.object({
   name: z.string().min(1, "Required"),
   slug: z.string().optional(),

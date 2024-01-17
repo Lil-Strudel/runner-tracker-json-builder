@@ -92,3 +92,22 @@ export const getAgeGroup = (age: number, gender: "" | "M" | "F") => {
 
   return `${gender}${ageGroup}`;
 };
+
+export const parseAgeGroup = (str?: string) => {
+  let ageFromGroup: string | undefined;
+  let sexFromGroup: "M" | "F" | undefined;
+
+  if (str) {
+    if (str.charAt(0) === "M") {
+      sexFromGroup = "M";
+      ageFromGroup = str.slice(1);
+    } else if (str.charAt(0) === "F") {
+      sexFromGroup = "F";
+      ageFromGroup = str.slice(1);
+    } else {
+      ageFromGroup = str;
+    }
+  }
+
+  return { ageFromGroup, sexFromGroup };
+};

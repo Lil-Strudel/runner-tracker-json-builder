@@ -2,19 +2,18 @@ import { z } from "zod";
 
 import Papa from "papaparse";
 import {
-  CSVParticipantValidator,
   Participant,
   ParticipantValidator,
+  UltraCSVParticipantValidator,
 } from "@/types";
 import { parseAgeGroup } from "@/lib/utils";
 
 interface ParticipantFileUploadProps {
   onUpload: (participants: Participant[]) => void;
 }
-function ParticipantFileUpload({ onUpload }: ParticipantFileUploadProps) {
+function UltraParticipantFileUpload({ onUpload }: ParticipantFileUploadProps) {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (!event.target.files) return;
-
     const fileReader = new FileReader();
 
     const handleFileRead = () => {
@@ -26,28 +25,24 @@ function ParticipantFileUpload({ onUpload }: ParticipantFileUploadProps) {
           skipEmptyLines: true,
         });
 
-        const results = z.array(CSVParticipantValidator).parse(records);
+        const results = z.array(UltraCSVParticipantValidator).parse(records);
 
         const formattedResults = results.map<Participant>((result) => {
-          const { ageFromGroup, sexFromGroup } = parseAgeGroup(
-            result["Age Group"],
-          );
-
-          const age = result.Age ? String(result.Age) : ageFromGroup;
-          const sex = result.Sex ? result.Sex : sexFromGroup;
+          const { ageFromGroup, sexFromGroup } = parseAgeGroup(result.Age);
 
           return ParticipantValidator.parse({
             bibNumber: result.Bib,
-            ...(result["First Name"]
-              ? { firstName: result["First Name"] }
+            ...(result.First ? { firstName: result.First } : {}),
+            ...(result.Last ? { lastName: result.Last } : {}),
+            ...(ageFromGroup ? { age: ageFromGroup } : {}),
+            ...(sexFromGroup ? { sex: sexFromGroup } : {}),
+            ...(result.Loc || result.City
+              ? {
+                  home: `${result.Loc}${result.Loc && result.City ? ", " : ""}${
+                    result.City
+                  }`,
+                }
               : {}),
-            ...(result["Last Name"] ? { lastName: result["Last Name"] } : {}),
-            ...(age ? { age } : {}),
-            ...(sex ? { sex } : {}),
-            ...(result["Race Name"] ? { raceName: result["Race Name"] } : {}),
-            ...(result.Note ? { note: result.Note } : {}),
-            ...(result.Home ? { home: result.Home } : {}),
-            ...(result.Team ? { team: result.Team } : {}),
           });
         });
 
@@ -68,10 +63,10 @@ function ParticipantFileUpload({ onUpload }: ParticipantFileUploadProps) {
 
   return (
     <div className="w-full flex flex-col gap-2">
-      <p className="font-bold">My Format</p>
+      <p className="font-bold">UltraSignup</p>
       <div className="flex items-center justify-center w-full">
         <label
-          htmlFor="csv-dropzone-file"
+          htmlFor="ultra-dropzone-file"
           className="flex flex-col items-center justify-center w-full border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
         >
           <div className="flex flex-col items-center justify-center pt-5 pb-6">
@@ -95,7 +90,7 @@ function ParticipantFileUpload({ onUpload }: ParticipantFileUploadProps) {
             </p>
           </div>
           <input
-            id="csv-dropzone-file"
+            id="ultra-dropzone-file"
             type="file"
             className="hidden"
             accept=".csv"
@@ -107,4 +102,4 @@ function ParticipantFileUpload({ onUpload }: ParticipantFileUploadProps) {
   );
 }
 
-export default ParticipantFileUpload;
+export default UltraParticipantFileUpload;
