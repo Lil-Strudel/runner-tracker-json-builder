@@ -1,0 +1,174 @@
+{
+  "name": "(ALL) Salt Flats Endurance Runs 2024",
+  "slug": "SFER24",
+  "startStation": 0,
+  "finishStation": 15,
+  "startDate": "2024-05-05T01:00:00.000Z",
+  "races": [],
+  "stations": [
+    {
+      "name": "Start | MNS:",
+      "stationNumber": 0,
+      "stationNumberDisplayed": " ",
+      "distance": 10
+    },
+    {
+      "name": "CSM: 10.0 | MNS:",
+      "stationNumber": 1,
+      "distance": 5.5
+    },
+    {
+      "name": "CSM: 15.5 | MNS:",
+      "stationNumber": 2,
+      "distance": 7.3
+    },
+    {
+      "name": "CSM: 22.8 | MNS: 2.9",
+      "stationNumber": 3,
+      "distance": 9.4
+    },
+    {
+      "name": "CSM: 25.7 | MNS:",
+      "stationNumber": 4,
+      "distance": 6.2
+    },
+    {
+      "name": "CSM: 31.9 | MNS:",
+      "stationNumber": 5,
+      "distance": 8.1
+    },
+    {
+      "name": "CSM: 40.0 | MNS:",
+      "stationNumber": 6,
+      "distance": 10.4
+    },
+    {
+      "name": "CSM: 50.4 | MNS:",
+      "stationNumber": 7,
+      "distance": 6.9
+    },
+    {
+      "name": "CSM: 57.3 | MNS:",
+      "stationNumber": 8,
+      "distance": 4.3
+    },
+    {
+      "name": "CSM: 61.6 | MNS:",
+      "stationNumber": 9,
+      "distance": 5.3
+    },
+    {
+      "name": "CSM: 66.9 - 32.2 | MNS: 6.2",
+      "stationNumber": 10,
+      "distance": 7.4
+    },
+    {
+      "name": "CSM: 73.1 - 39.6 | MNS:",
+      "stationNumber": 11,
+      "distance": 7.4
+    },
+    {
+      "name": "CSM: 80.5 | MNS:",
+      "stationNumber": 12,
+      "distance": 8.4
+    },
+    {
+      "name": "CSM: 88.9 | MNS:",
+      "stationNumber": 13,
+      "distance": 7.4
+    },
+    {
+      "name": "CSM: 96.3 - 46.0 | MNS: 3.7",
+      "stationNumber": 14,
+      "distance": 4
+    },
+    {
+      "name": "FINISH | 100.0",
+      "stationNumber": 15,
+      "stationNumberDisplayed": " ",
+      "distance": 50
+    }
+  ],
+  "participants": [
+    {
+      "bibNumber": 0,
+      "age": "30-39�",
+      "firstName": "Brett",
+      "lastName": "Bishopp",
+      "home": "San Antonio�",
+      "sex": "M"
+    },
+    {
+      "bibNumber": 0,
+      "age": "40-49�",
+      "firstName": "Gail",
+      "lastName": "Benson",
+      "home": "Star�",
+      "sex": "F"
+    },
+    {
+      "bibNumber": 0,
+      "age": "20-29�",
+      "firstName": "Preston",
+      "lastName": "Guymon",
+      "home": "Ammon�",
+      "sex": "M"
+    },
+    {
+      "bibNumber": 0,
+      "age": "30-39�",
+      "firstName": "Alice",
+      "lastName": "Visocchi",
+      "home": "Washington�",
+      "sex": "F"
+    },
+    {
+      "bibNumber": 1,
+      "age": "30-39�",
+      "firstName": "Lianne",
+      "lastName": "Vicchio",
+      "home": "orangevale�",
+      "sex": "F"
+    },
+    {
+      "bibNumber": 2,
+      "age": "40-49�",
+      "firstName": "Emily",
+      "lastName": "Washburn",
+      "home": "Cedar City�",
+      "sex": "F"
+    },
+    {
+      "bibNumber": 3,
+      "age": "40-49�",
+      "firstName": "Paul",
+      "lastName": "Washburn",
+      "home": "Cedar City�",
+      "sex": "M"
+    },
+    {
+      "bibNumber": 4,
+      "age": "20-29�",
+      "firstName": "William",
+      "lastName": "Washburn",
+      "home": "Cedar City�",
+      "sex": "M"
+    },
+    {
+      "bibNumber": 5,
+      "age": "40-49�",
+      "firstName": "Zeb",
+      "lastName": "Reeves",
+      "home": "Draper�",
+      "sex": "M"
+    },
+    {
+      "bibNumber": 6,
+      "age": "60-69�",
+      "firstName": "Pascal",
+      "lastName": "Vincent",
+      "home": "SALT LAKE CITY�",
+      "sex": "M"
+    }
+  ]
+}

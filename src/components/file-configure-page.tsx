@@ -88,8 +88,8 @@ function FileConfigurePageContent(props: FileConfigurePageProps) {
     <section className="py-4 flex flex-col">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
-          <div className="max-w-screen-xl mx-auto px-4 md:px-8">
-            <div className="max-w-xl mx-auto">
+          <div className="max-w-screen-lg mx-auto px-4 md:px-8">
+            <div className="max-w-screen-lg mx-auto">
               <Tabs defaultValue="general">
                 <div className="flex flex-col gap-4 justify-center align-center sm:flex-row">
                   <TabsList>
