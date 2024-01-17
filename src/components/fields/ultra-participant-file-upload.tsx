@@ -38,9 +38,9 @@ function UltraParticipantFileUpload({ onUpload }: ParticipantFileUploadProps) {
             ...(sexFromGroup ? { sex: sexFromGroup } : {}),
             ...(result.Loc || result.City
               ? {
-                  home: `${result.Loc}${result.Loc && result.City ? ", " : ""}${
-                    result.City
-                  }`,
+                  home: `${result.City}${
+                    result.Loc && result.City ? ", " : ""
+                  }${result.Loc}`,
                 }
               : {}),
           });
