@@ -13,6 +13,7 @@ import Races from "./fileConfigureForm/races";
 import usePreventRefresh from "@/hooks/usePreventRefresh";
 import { saveObjectAsFile } from "@/lib/utils";
 import { set } from "date-fns";
+import FileName from "./fields/file-name";
 
 interface FileConfigurePageProps {
   initialValues: Partial<FormValues>;
@@ -81,41 +82,40 @@ function FileConfigurePageContent(props: FileConfigurePageProps) {
   const onSubmit = (values: FormValues) => {
     const raceEvent = convertFormToFile(values);
 
-    saveObjectAsFile("runner-tracker", "json", raceEvent);
+    saveObjectAsFile(values.fileName || "runner-tracker", "json", raceEvent);
   };
 
   return (
     <section className="py-4 flex flex-col">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
-          <div className="max-w-screen-lg mx-auto px-4 md:px-8">
-            <div className="max-w-screen-lg mx-auto">
-              <Tabs defaultValue="general">
-                <div className="flex flex-col gap-4 justify-center align-center sm:flex-row">
-                  <TabsList>
-                    <TabsTrigger value="general">General</TabsTrigger>
-                    <TabsTrigger value="stations">Stations</TabsTrigger>
-                    <TabsTrigger value="races">Races</TabsTrigger>
-                    <TabsTrigger value="participants">Participants</TabsTrigger>
-                  </TabsList>
-                  <Button type="submit">Export File</Button>
-                </div>
-                <div className="bg-muted rounded-md p-4 my-4">
-                  <TabsContent value="general">
-                    <General control={form.control} />
-                  </TabsContent>
-                  <TabsContent value="stations">
-                    <Stations control={form.control} />
-                  </TabsContent>
-                  <TabsContent value="races">
-                    <Races control={form.control} />
-                  </TabsContent>
-                  <TabsContent value="participants">
-                    <Participants control={form.control} />
-                  </TabsContent>
-                </div>
-              </Tabs>
-            </div>
+          <div className="max-w-screen-lg mx-auto">
+            <FileName />
+            <Tabs defaultValue="general">
+              <div className="flex flex-col gap-4 justify-center align-center my-4 sm:flex-row">
+                <TabsList>
+                  <TabsTrigger value="general">General</TabsTrigger>
+                  <TabsTrigger value="stations">Stations</TabsTrigger>
+                  <TabsTrigger value="races">Races</TabsTrigger>
+                  <TabsTrigger value="participants">Participants</TabsTrigger>
+                </TabsList>
+                <Button type="submit">Export File</Button>
+              </div>
+              <div className="bg-muted rounded-md p-4">
+                <TabsContent value="general">
+                  <General control={form.control} />
+                </TabsContent>
+                <TabsContent value="stations">
+                  <Stations control={form.control} />
+                </TabsContent>
+                <TabsContent value="races">
+                  <Races control={form.control} />
+                </TabsContent>
+                <TabsContent value="participants">
+                  <Participants control={form.control} />
+                </TabsContent>
+              </div>
+            </Tabs>
           </div>
         </form>
       </Form>

@@ -7,24 +7,22 @@ import { z } from "zod";
 function FileUploader() {
   const { setAppState } = useContext(AppContext);
 
+  const transformFileToForm = (values: File): FormValues => {
+    const formValues: FormValues = {
+      ...values,
+      startTime: values.startDate
+        ? format(values.startDate, "HH:mm:ss")
+        : undefined,
+      endTime: values.endDate ? format(values.endDate, "HH:mm:ss") : undefined,
+    };
+
+    return FormValidator.parse(formValues);
+  };
+
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (!event.target.files) return;
 
     const fileReader = new FileReader();
-
-    const transformFileToForm = (values: File): FormValues => {
-      const formValues: FormValues = {
-        ...values,
-        startTime: values.startDate
-          ? format(values.startDate, "HH:mm:ss")
-          : undefined,
-        endTime: values.endDate
-          ? format(values.endDate, "HH:mm:ss")
-          : undefined,
-      };
-
-      return FormValidator.parse(formValues);
-    };
 
     const handleFileRead = () => {
       try {
@@ -33,6 +31,11 @@ function FileUploader() {
         const fileData = FileValidator.parse(parsedContent);
 
         const initialValues = transformFileToForm(fileData);
+
+        initialValues.fileName = event.target?.files?.[0]?.name.replace(
+          ".json",
+          "",
+        );
 
         setAppState({
           mode: "configure",
