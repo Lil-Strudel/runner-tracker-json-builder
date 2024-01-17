@@ -43,17 +43,22 @@ export const ParticipantValidator = z.object({
 });
 export type Participant = z.infer<typeof ParticipantValidator>;
 
+const optionalCleanedString = z
+  .string()
+  .trim()
+  .transform((value) => value.replace(/[\u{0080}-\u{FFFF}]/gu, ""))
+  .optional();
 export const CSVParticipantValidator = z.object({
   Bib: z.coerce.number(),
-  "First Name": z.string().optional(),
-  "Last Name": z.string().optional(),
-  Home: z.string().optional(),
-  Note: z.string().optional(),
-  Team: z.string().optional(),
-  "Race Name": z.string().optional(),
-  Age: z.string().optional(),
+  "First Name": optionalCleanedString,
+  "Last Name": optionalCleanedString,
+  Home: optionalCleanedString,
+  Note: optionalCleanedString,
+  Team: optionalCleanedString,
+  "Race Name": optionalCleanedString,
+  Age: optionalCleanedString,
   Sex: z.union([z.literal("M"), z.literal("F"), z.literal("")]).optional(),
-  "Age Group": z.string().optional(),
+  "Age Group": optionalCleanedString,
 });
 export type CSVParticipant = z.infer<typeof CSVParticipantValidator>;
 

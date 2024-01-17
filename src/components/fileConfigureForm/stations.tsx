@@ -41,7 +41,6 @@ function Stations({ control }: StationsProps) {
                 variant="outline"
                 size="icon"
                 onClick={() => handleDeleteStation(i)}
-                className="sm:hidden"
               >
                 <Trash2 className="h-4 w-4 opacity-50" />
               </Button>
@@ -65,14 +64,6 @@ function Stations({ control }: StationsProps) {
                 placeholder="Display Override"
                 label="Display Override"
               />
-              <Button
-                variant="outline"
-                size="icon"
-                onClick={() => handleDeleteStation(i)}
-                className="hidden sm:flex"
-              >
-                <Trash2 className="h-4 w-4 opacity-50" />
-              </Button>
             </div>
           </div>
         ))}
