@@ -49,7 +49,7 @@ function FileConfigurePageContent(props: FileConfigurePageProps) {
 
     if (endDate && endTime) {
       const [hours, min] = endTime.split(":");
-      actualStartDate = set(endDate, {
+      actualEndDate = set(endDate, {
         hours: Number(hours),
         minutes: Number(min),
       });
