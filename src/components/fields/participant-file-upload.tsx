@@ -51,7 +51,30 @@ function ParticipantFileUpload({ onUpload }: ParticipantFileUploadProps) {
           });
         });
 
-        onUpload(formattedResults);
+        let emptyBibNumberCount = 1;
+
+        const biggestBibNumber = formattedResults.reduce((acc, cur) => {
+          if (cur.bibNumber > acc) {
+            return cur.bibNumber;
+          }
+
+          return acc;
+        }, 0);
+
+        const bibCorrectedResults = formattedResults.map((result) => {
+          let bibNumber = result.bibNumber;
+          if (bibNumber === 0) {
+            bibNumber = biggestBibNumber + emptyBibNumberCount;
+            emptyBibNumberCount += 1;
+          }
+
+          return {
+            ...result,
+            bibNumber,
+          };
+        });
+
+        onUpload(bibCorrectedResults);
       } catch (err) {
         if (err instanceof z.ZodError) {
           alert(JSON.stringify(err.issues));
