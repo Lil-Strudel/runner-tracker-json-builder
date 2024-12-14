@@ -26,6 +26,10 @@ function Participants({ control }: ParticipantsProps) {
     "override",
   );
 
+  const handleDeleteAllParticipants = () => {
+    participantsField.field.onChange([]);
+  };
+
   const handleParticipantUpload = (participants: Participant[]) => {
     if (uploadBehavior === "update") {
       const currentParticipants = participantsField.field.value;
@@ -149,6 +153,13 @@ function Participants({ control }: ParticipantsProps) {
           />
           <Label htmlFor="csv-mode">Overide all participants on upload</Label>
         </div>
+
+        <Button
+          className="w-full sm:w-[275px]"
+          onClick={handleDeleteAllParticipants}
+        >
+          Delete All Participants
+        </Button>
 
         <Button className="w-full sm:w-[275px]" onClick={handleCSVDownload}>
           {participantsField.field.value.length === 0
