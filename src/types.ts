@@ -72,6 +72,7 @@ export const UltraCSVParticipantValidator = z.object({
   Last: optionalCleanedString,
   City: optionalCleanedString,
   Loc: optionalCleanedString,
+  "Race Name": optionalCleanedString,
   Bib: z.coerce.number(),
 });
 export type UltraCSVParticipant = z.infer<typeof UltraCSVParticipantValidator>;
