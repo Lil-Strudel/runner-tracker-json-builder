@@ -11,7 +11,7 @@ function WelcomePage() {
           </h3>
           <p className="mt-3 text-gray-600">
             Here is a little tool I threw together to help out generating the
-            json files for Runner Tracker
+            json files for TRacer
           </p>
         </div>
         <div className="flex gap-3 flex-col items-center justify-center mt-4">
