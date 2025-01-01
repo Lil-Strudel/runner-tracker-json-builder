@@ -43,7 +43,7 @@ function UltraParticipantFileUpload({ onUpload }: ParticipantFileUploadProps) {
                   }${result.Loc}`,
                 }
               : {}),
-            ...(result["Race Name"] ? { raceName: result["Race Name"] } : {}),
+            ...(result["Race"] ? { raceName: result["Race"] } : {}),
           });
         });
 
