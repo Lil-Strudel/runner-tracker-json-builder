@@ -6,7 +6,7 @@ import {
   Participant,
   ParticipantValidator,
 } from "@/types";
-import { parseAgeGroup } from "@/lib/utils";
+import { parseAgeGroup, sanitizeReplacementChar } from "@/lib/utils";
 
 interface ParticipantFileUploadProps {
   onUpload: (participants: Participant[]) => void;
@@ -26,7 +26,11 @@ function ParticipantFileUpload({ onUpload }: ParticipantFileUploadProps) {
           skipEmptyLines: true,
         });
 
-        const results = z.array(CSVParticipantValidator).parse(records);
+        const sanitizedRecords = sanitizeReplacementChar(records);
+
+        const results = z
+          .array(CSVParticipantValidator)
+          .parse(sanitizedRecords);
 
         const formattedResults = results.map<Participant>((result) => {
           const { ageFromGroup, sexFromGroup } = parseAgeGroup(

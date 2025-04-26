@@ -6,7 +6,7 @@ import {
   ParticipantValidator,
   UltraCSVParticipantValidator,
 } from "@/types";
-import { parseAgeGroup } from "@/lib/utils";
+import { parseAgeGroup, sanitizeReplacementChar } from "@/lib/utils";
 
 interface ParticipantFileUploadProps {
   onUpload: (participants: Participant[]) => void;
@@ -25,7 +25,11 @@ function UltraParticipantFileUpload({ onUpload }: ParticipantFileUploadProps) {
           skipEmptyLines: true,
         });
 
-        const results = z.array(UltraCSVParticipantValidator).parse(records);
+        const sanitizedRecords = sanitizeReplacementChar(records);
+
+        const results = z
+          .array(UltraCSVParticipantValidator)
+          .parse(sanitizedRecords);
 
         const formattedResults = results.map<Participant>((result) => {
           const { ageFromGroup, sexFromGroup } = parseAgeGroup(result.Age);

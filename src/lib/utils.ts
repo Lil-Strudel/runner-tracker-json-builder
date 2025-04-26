@@ -111,3 +111,29 @@ export const parseAgeGroup = (str?: string) => {
 
   return { ageFromGroup, sexFromGroup };
 };
+
+export function sanitizeReplacementChar<T>(input: T): T {
+  const replacementChar = "\uFFFD";
+
+  if (typeof input === "string") {
+    return input.replace(new RegExp(replacementChar, "g"), "") as unknown as T;
+  }
+
+  if (Array.isArray(input)) {
+    return input.map((item) => sanitizeReplacementChar(item)) as unknown as T;
+  }
+
+  if (input && typeof input === "object") {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const newObj: any = {}; // We need 'any' here to build the new object dynamically
+    for (const key in input) {
+      if (Object.prototype.hasOwnProperty.call(input, key)) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        newObj[key] = sanitizeReplacementChar((input as any)[key]);
+      }
+    }
+    return newObj as T;
+  }
+
+  return input;
+}
