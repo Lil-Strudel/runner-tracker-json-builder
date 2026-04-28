@@ -1,9 +1,14 @@
+import { useContext } from "react";
+import { Globe } from "lucide-react";
+import { AppContext } from "@/AppContext";
 import FileUploader from "./file-uploader";
 import StartFromScratchButton from "./start-from-scratch-button";
 
 function WelcomePage() {
+  const { setAppState } = useContext(AppContext);
+
   return (
-    <section className="py-14 flex flex-col">
+    <section className="relative py-14 flex flex-col">
       <div className="max-w-screen-xl mx-auto px-4 text-center md:px-8">
         <div className="max-w-xl md:mx-auto">
           <h3 className="text-gray-800 text-3xl font-semibold sm:text-4xl">
@@ -20,6 +25,13 @@ function WelcomePage() {
           <FileUploader />
         </div>
       </div>
+      <button
+        onClick={() => setAppState({ mode: "import-live", initialValues: null })}
+        className="absolute bottom-4 right-4 p-2 text-gray-300 hover:text-gray-500 transition-colors"
+        title="Import from live site"
+      >
+        <Globe size={18} />
+      </button>
     </section>
   );
 }

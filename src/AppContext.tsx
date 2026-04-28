@@ -9,6 +9,10 @@ type AppState =
   | {
       mode: "configure";
       initialValues: Partial<FormValues>;
+    }
+  | {
+      mode: "import-live";
+      initialValues: null;
     };
 
 export const AppContext = createContext<{
