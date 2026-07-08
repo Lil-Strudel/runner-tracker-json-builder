@@ -1,5 +1,4 @@
-import { useContext } from "react";
-import { AppContext } from "@/AppContext";
+import { Navigate, useLocation } from "react-router-dom";
 import { File, FormValidator, FormValues } from "@/types";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -124,12 +123,12 @@ function FileConfigurePageContent(props: FileConfigurePageProps) {
 }
 
 function FileConfigurePage() {
-  const { appState } = useContext(AppContext);
+  const location = useLocation();
+  const initialValues = location.state as Partial<FormValues> | null;
 
-  if (appState.mode !== "configure")
-    return <div>Something went wrong. Please refresh.</div>;
+  if (!initialValues) return <Navigate to="/" replace />;
 
-  return <FileConfigurePageContent initialValues={appState.initialValues} />;
+  return <FileConfigurePageContent initialValues={initialValues} />;
 }
 
 export default FileConfigurePage;

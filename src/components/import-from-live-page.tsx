@@ -1,6 +1,6 @@
-import { useState, useContext } from "react";
+import { useState } from "react";
+import { Link } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
-import { AppContext } from "@/AppContext";
 import { saveObjectAsFile } from "@/lib/utils";
 
 function parseInput(input: string): { baseUrl: string; slug: string } {
@@ -159,7 +159,6 @@ async function buildOutput(baseUrl: string, slug: string) {
 }
 
 function ImportFromLivePage() {
-  const { setAppState } = useContext(AppContext);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -187,13 +186,13 @@ function ImportFromLivePage() {
   return (
     <section className="py-14 flex flex-col">
       <div className="max-w-screen-xl mx-auto px-4 md:px-8 w-full">
-        <button
-          onClick={() => setAppState({ mode: "welcome", initialValues: null })}
-          className="flex items-center gap-1 text-sm text-gray-500 hover:text-gray-700 transition-colors mb-6"
+        <Link
+          to="/"
+          className="flex items-center gap-1 text-sm text-gray-500 hover:text-gray-700 transition-colors mb-6 w-fit"
         >
           <ArrowLeft size={16} />
           Back
-        </button>
+        </Link>
 
         <div className="max-w-xl">
           <h3 className="text-gray-800 text-3xl font-semibold sm:text-4xl mb-2">

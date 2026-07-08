@@ -1,14 +1,12 @@
-import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "./ui/button";
-import { AppContext } from "@/AppContext";
 
 function StartFromScratchButton() {
-  const { setAppState } = useContext(AppContext);
+  const navigate = useNavigate();
 
   const handleClick = () => {
-    setAppState({
-      mode: "configure",
-      initialValues: {
+    navigate("/build", {
+      state: {
         races: [],
         stations: [],
         participants: [],
