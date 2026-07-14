@@ -26,6 +26,8 @@ function Participants({ control }: ParticipantsProps) {
     "override",
   );
 
+  const [displayMode, setDisplayMode] = useState<"runner" | "car">("runner");
+
   const handleDeleteAllParticipants = () => {
     participantsField.field.onChange([]);
   };
@@ -101,6 +103,7 @@ function Participants({ control }: ParticipantsProps) {
           Age: age,
           "Age Group": ageGroup,
           "Race Name": participant.raceName,
+          "Grid Number": participant.gridNumber,
         };
       },
     );
@@ -117,6 +120,7 @@ function Participants({ control }: ParticipantsProps) {
         Age: "",
         "Age Group": "",
         "Race Name": "",
+        "Grid Number": undefined,
       });
     }
 
@@ -144,6 +148,18 @@ function Participants({ control }: ParticipantsProps) {
           are empty, I will do my best to extract it from age group.
         </AlertDescription>
       </Alert>
+      <div className="w-full flex items-center gap-2">
+        <Switch
+          id="display-mode"
+          checked={displayMode === "car"}
+          onCheckedChange={(checked) =>
+            setDisplayMode(checked ? "car" : "runner")
+          }
+        />
+        <Label htmlFor="display-mode">
+          Car Mode (show Grid Number field/column)
+        </Label>
+      </div>
       <div className="w-full flex justify-between flex-col gap-4 sm:flex-row">
         <div className="w-full flex items-center gap-2">
           <Switch
@@ -174,6 +190,7 @@ function Participants({ control }: ParticipantsProps) {
       <ParticipantTable
         control={control}
         participantsField={participantsField}
+        displayMode={displayMode}
       />
     </div>
   );

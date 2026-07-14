@@ -39,6 +39,10 @@ export const ParticipantValidator = z.object({
   sex: z.union([z.literal("M"), z.literal("F")]).optional(),
   team: z.string().optional(),
   raceName: z.string().optional(),
+  gridNumber: z.preprocess(
+    (val) => (val === "" ? undefined : val),
+    z.coerce.number().optional(),
+  ),
   entrys: z.record(z.number(), EntryValidator).optional(),
 });
 export type Participant = z.infer<typeof ParticipantValidator>;
@@ -59,6 +63,10 @@ export const CSVParticipantValidator = z.object({
   Age: optionalCleanedString,
   Sex: z.union([z.literal("M"), z.literal("F"), z.literal("")]).optional(),
   "Age Group": optionalCleanedString,
+  "Grid Number": z.preprocess(
+    (val) => (val === "" ? undefined : val),
+    z.coerce.number().optional(),
+  ),
 });
 export type CSVParticipant = z.infer<typeof CSVParticipantValidator>;
 

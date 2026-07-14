@@ -60,6 +60,9 @@ function ParticipantFileUpload({ onUpload }: ParticipantFileUploadProps) {
             ...(result.Note ? { note: result.Note } : {}),
             ...(result.Home ? { home: result.Home } : {}),
             ...(result.Team ? { team: result.Team } : {}),
+            ...(result["Grid Number"] !== undefined
+              ? { gridNumber: result["Grid Number"] }
+              : {}),
           });
         });
 

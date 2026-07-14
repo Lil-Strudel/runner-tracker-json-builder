@@ -25,6 +25,7 @@ type ParticipantEditDialogProps = {
   control: Control<FormValues>;
   onEdit: (participant: Participant) => void;
   dialogProps?: DialogProps;
+  displayMode: "runner" | "car";
 } & (
   | { mode: "edit"; participant: Participant }
   | { mode: "create"; participant?: never }
@@ -35,6 +36,7 @@ function ParticipantEditDialog({
   participant,
   onEdit,
   dialogProps,
+  displayMode,
 }: ParticipantEditDialogProps) {
   const form = useForm<Participant>({
     resolver: zodResolver(ParticipantValidator),
@@ -156,6 +158,13 @@ function ParticipantEditDialog({
               </div>
             </div>
             <TextField control={form.control} name="home" label="Home" />
+            {displayMode === "car" && (
+              <TextField
+                control={form.control}
+                name="gridNumber"
+                label="Grid Number"
+              />
+            )}
             {raceNames.length > 0 && (
               <SelectField
                 control={form.control}

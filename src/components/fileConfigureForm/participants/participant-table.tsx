@@ -38,8 +38,13 @@ import ParticipantEditDialog from "./participant-edit-dialog";
 interface ParticipantsProps {
   control: Control<FormValues>;
   participantsField: UseControllerReturn<FormValues, "participants">;
+  displayMode: "runner" | "car";
 }
-function ParticipantTable({ control, participantsField }: ParticipantsProps) {
+function ParticipantTable({
+  control,
+  participantsField,
+  displayMode,
+}: ParticipantsProps) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({
@@ -68,6 +73,31 @@ function ParticipantTable({ control, participantsField }: ParticipantsProps) {
           <div className="capitalize">{row.getValue("bibNumber")}</div>
         ),
       },
+      ...(displayMode === "car"
+        ? ([
+            {
+              accessorKey: "gridNumber",
+              header: ({ column }) => {
+                return (
+                  <Button
+                    variant="ghost"
+                    onClick={() =>
+                      column.toggleSorting(column.getIsSorted() === "asc")
+                    }
+                  >
+                    Grid #
+                    <ArrowUpDown className="ml-2 h-4 w-4" />
+                  </Button>
+                );
+              },
+              cell: ({ row }) => (
+                <div className="capitalize">
+                  {row.getValue("gridNumber")}
+                </div>
+              ),
+            } as ColumnDef<Participant>,
+          ] as ColumnDef<Participant>[])
+        : []),
       {
         accessorKey: "firstName",
         header: ({ column }) => {
@@ -161,11 +191,12 @@ function ParticipantTable({ control, participantsField }: ParticipantsProps) {
             control={control}
             row={row}
             participantsField={participantsField}
+            displayMode={displayMode}
           />
         ),
       },
     ],
-    [participantsField, participantsField.field.value, control],
+    [participantsField, participantsField.field.value, control, displayMode],
   );
 
   const table = useReactTable({
@@ -232,6 +263,7 @@ function ParticipantTable({ control, participantsField }: ParticipantsProps) {
 
         <ParticipantEditDialog
           mode="create"
+          displayMode={displayMode}
           control={control}
           onEdit={(values) => {
             const newParticipants = [values, ...participantsField.field.value];

@@ -19,12 +19,14 @@ interface ParticipantTableActionsCellProps {
   control: Control<FormValues>;
   row: Row<Participant>;
   participantsField: UseControllerReturn<FormValues, "participants">;
+  displayMode: "runner" | "car";
 }
 
 function ParticipantTableActionsCell({
   control,
   row,
   participantsField,
+  displayMode,
 }: ParticipantTableActionsCellProps) {
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [editOpen, setEditOpen] = useState(false);
@@ -51,6 +53,7 @@ function ParticipantTableActionsCell({
       </DropdownMenu>
       <ParticipantEditDialog
         mode="edit"
+        displayMode={displayMode}
         control={control}
         participant={row.original}
         onEdit={(values) => {

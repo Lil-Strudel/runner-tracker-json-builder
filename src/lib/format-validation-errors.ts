@@ -126,7 +126,7 @@ function formatFieldName(fieldPath: string): string {
 function getHeaderText(context: ValidationContext): string {
   switch (context) {
     case "my-format":
-      return "There's an issue with your CSV file format. Expected columns: Bib, First Name, Last Name, Age Group (or Age/Sex), and optionally: Home, Team, Race Name, Note.";
+      return "There's an issue with your CSV file format. Expected columns: Bib, First Name, Last Name, Age Group (or Age/Sex), and optionally: Home, Team, Race Name, Note, Grid Number.";
 
     case "ultra-format":
       return "There's an issue with your UltraSignup CSV file. Expected columns: Bib, First, Last, Age, City, Loc, Race, and optionally: Rank, Age Rank, Results, Target.";
