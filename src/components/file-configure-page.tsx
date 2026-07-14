@@ -9,6 +9,7 @@ import General from "./fileConfigureForm/general";
 import Stations from "./fileConfigureForm/stations";
 import Participants from "./fileConfigureForm/participants";
 import Races from "./fileConfigureForm/races";
+import Settings from "./fileConfigureForm/settings";
 import usePreventRefresh from "@/hooks/usePreventRefresh";
 import { saveObjectAsFile } from "@/lib/utils";
 import { set } from "date-fns";
@@ -97,6 +98,7 @@ function FileConfigurePageContent(props: FileConfigurePageProps) {
                   <TabsTrigger value="stations">Stations</TabsTrigger>
                   <TabsTrigger value="races">Races</TabsTrigger>
                   <TabsTrigger value="participants">Participants</TabsTrigger>
+                  <TabsTrigger value="settings">Settings</TabsTrigger>
                 </TabsList>
                 <Button type="submit">Export File</Button>
               </div>
@@ -112,6 +114,9 @@ function FileConfigurePageContent(props: FileConfigurePageProps) {
                 </TabsContent>
                 <TabsContent value="participants">
                   <Participants control={form.control} />
+                </TabsContent>
+                <TabsContent value="settings">
+                  <Settings control={form.control} />
                 </TabsContent>
               </div>
             </Tabs>

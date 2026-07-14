@@ -85,6 +85,13 @@ export const UltraCSVParticipantValidator = z.object({
 });
 export type UltraCSVParticipant = z.infer<typeof UltraCSVParticipantValidator>;
 
+export const SettingsValidator = z.object({
+  skipTimeIn: z.boolean().optional(),
+  skipTimeOut: z.boolean().optional(),
+  includeSecondsWithTime: z.boolean().optional(),
+});
+export type Settings = z.infer<typeof SettingsValidator>;
+
 export const EventValidator = z.object({
   name: z.string().min(1, "Required"),
   slug: z.string().optional(),
@@ -98,6 +105,7 @@ export const EventValidator = z.object({
     (val) => (val === "" ? undefined : val),
     z.coerce.number().optional(),
   ),
+  settings: SettingsValidator.optional(),
 });
 export type Event = z.infer<typeof EventValidator>;
 
