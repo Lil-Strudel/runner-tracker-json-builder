@@ -86,8 +86,7 @@ export const UltraCSVParticipantValidator = z.object({
 export type UltraCSVParticipant = z.infer<typeof UltraCSVParticipantValidator>;
 
 export const SettingsValidator = z.object({
-  skipTimeIn: z.boolean().optional(),
-  skipTimeOut: z.boolean().optional(),
+  singleTimeMode: z.boolean().optional(),
   includeSecondsWithTime: z.boolean().optional(),
 });
 export type Settings = z.infer<typeof SettingsValidator>;

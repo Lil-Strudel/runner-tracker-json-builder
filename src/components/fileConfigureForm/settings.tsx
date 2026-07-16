@@ -10,15 +10,9 @@ function Settings({ control }: SettingsProps) {
     <div className="flex flex-col gap-4">
       <SwitchField
         control={control}
-        name="settings.skipTimeIn"
-        label="Skip Time In"
-        helperText="Stations only collect Time Out. Finish still collects Time In."
-      />
-      <SwitchField
-        control={control}
-        name="settings.skipTimeOut"
-        label="Skip Time Out"
-        helperText="Stations only collect Time In. Finish still collects Time Out."
+        name="settings.singleTimeMode"
+        label="Single Time Mode"
+        helperText="Stations only collect a single time instead of separate Time In and Time Out. Finish still collects both."
       />
       <SwitchField
         control={control}
